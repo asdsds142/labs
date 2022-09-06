@@ -11,19 +11,20 @@
 using namespace std;
 
 
-
+/*Класс описывающий булеву матрицу, хранение данных происходит в виде массива long,
+ *доступ к элементам производится при помощи битовых операций сдвига*/
 class BoolMatrix
 {
 private:
 	short i, j;
-    vector<long> p;
+    vector<long> p; //проставлять везде unsigned ради 1 бита мне немножко лень хотя я возможно чего то не знаю
 
 	
 
 public:
-	BoolMatrix(int, int);
-	BoolMatrix(string);
-    BoolMatrix(const BoolMatrix&); //доделать копирование
+	BoolMatrix(int, int); // добавить для всех конструкторов защиту от матриц больше размера j = 63 (с учетом знака)
+	BoolMatrix(string);														//или сколько там битов в лонге		
+    BoolMatrix(const BoolMatrix&); 
 
 	~BoolMatrix();
 	void to_file(string);

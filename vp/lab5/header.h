@@ -28,12 +28,14 @@ private:
     int i, j;
     int **ptr;
     int *numbersnumber;
+    double *average;
+    bool *is_bad;
 
 public:
     Matrix(int, int);
     Matrix(int, int, int);
-    void show();
     void replace_a1_a2(int a1, int a2);
-    void calculate_string_average(int);
+    double calculate_string_average(int);
     void show();
+    void sort();
 };

@@ -7,7 +7,11 @@ Vector::Vector(int n)
 {
     this->memory = n;
     this->ptr = new int[n];
+    this->size = 0;
 }
+
+
+
 
 
 Vector::~Vector()
@@ -45,6 +49,29 @@ void Vector::push_back(int value)
     }
 }
 
+void Vector::push_back(int a[], int sz)
+{
+    int memoryneed = 0;
+
+    if (this->memory - this->size < sz)
+    {
+        memoryneed = sz - (this->memory - this->size);
+        reserve(memoryneed);
+    }
+
+    
+
+
+
+    for (int i = 0; i < sz; i++)
+    {
+        this->ptr[this->size] = a[i];
+        this->size += 1;
+    }
+
+}
+
+
 
 int Vector::pop_back()
 {
@@ -72,7 +99,9 @@ int Vector::find_kmax(int k)
 
     int *p = new int[this->size];
     for (int i = 0; i < this->size; i++)
+    {
         p[i] = this->ptr[i];
+    }
 
 
     int min = this->ptr[0];
@@ -84,27 +113,38 @@ int Vector::find_kmax(int k)
     {
         for (int j = 0; j < this->size; j++)
         {
-            if (p[i] < min)
+            if (p[j] < min)
             {
-                min = p[i];
-                min_index = i;
+                min = p[j];
+                min_index = j;
             }
-            if (p[i] > max)
+            if (p[j] > max)
             {
-                max = p[i];
-                max_index = i;
+                max = p[j];
+                max_index = j;
             }
         }
         if (i == k-1)
         {
-            cout << k << "-тое максимальное значение = " << max << endl;
-            return max;
+            break;
         }
 
         p[max_index] = min;
         max = min;
+        
     }
 
+    cout << k << "-тое максимальное значение = " << max << endl;
+    return max;
 
 }
 
+
+void Vector::show()
+{
+    for (int i = 0; i < this->size; i++)
+    {
+        cout << this->ptr[i] << " ";
+    }
+    cout << endl;
+}

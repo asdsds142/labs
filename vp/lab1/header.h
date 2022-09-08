@@ -2,6 +2,7 @@
 
 
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -17,10 +18,12 @@ private:
 
 public:
 
-    Vector(int);
+    Vector(int = 0);
     void reserve(int);
     void push_back(int);
+    void push_back(int[], int);// передавать рядом с массивом его размер, ибо в функции массив превращается в указатель, в интернетах другого решения не пишут
     int pop_back();
     int find_kmax(int);
+    void show();
     ~Vector();
 };

@@ -1,6 +1,26 @@
 #include "header.h"
 
 
+
+stud::stud()
+{
+    cout << "\nВведите 'Фамилия, Имя, отчество студента'" << endl;
+    cin >> this->name;
+    cout << "\nВведите курс" << endl;
+    cin >> this->kurs;
+    cout << "\nВведите количество оценок" << endl;
+    cin >> this->scorenumber;
+    cout << "\nВведите оценки" << endl;
+    for (int i = 0; i < this->scorenumber; i++)
+    {
+
+    } // доделать
+    
+
+    
+}
+
+
 short getstatus(stud s)
 {
     short st = 5;
@@ -31,7 +51,10 @@ short getstatus(stud s)
 
 
 
-void sort_status(st)
+void sort_status(stud a[])
+{
+
+}
 
 
 

@@ -25,11 +25,12 @@ struct stud
     int *p;
     int kurs;
     short status;
+    stud();
 };
 
 
 short get_status(stud);
 void sort_status(stud[]);
-void sort_kurs(int);
+void sort_kurs(stud[]);
 
 

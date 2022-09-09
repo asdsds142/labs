@@ -1,4 +1,4 @@
-#include "header.h"
+#include "myvector.h"
 
 //функция поиска Кмаксимального (вариант 14) в самом низу, впринципе еще чутка подрихтовать и будет готово
 
@@ -148,3 +148,11 @@ void Vector::show()
     }
     cout << endl;
 }
+
+
+short Vector::get_size()
+{
+    return this->size;
+}
+
+

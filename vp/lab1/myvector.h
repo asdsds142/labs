@@ -25,5 +25,6 @@ public:
     int pop_back();
     int find_kmax(int);
     void show();
+    short get_size();
     ~Vector();
 };

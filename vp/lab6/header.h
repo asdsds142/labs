@@ -29,8 +29,9 @@ struct stud
 };
 
 
+
 short get_status(stud);
-void sort_status(stud[]);
+//void sort_status(stud[]);
 void sort_kurs(stud[]);
 
 

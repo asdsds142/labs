@@ -8,6 +8,7 @@ int main()
     A.show();
     A.replace_a1_a2(1, 2);
     A.show();
+    A.sort();//проверить
 }
 
 

@@ -6,16 +6,36 @@
 using namespace std;
 
 
+int createfile(char filename[])
+{
+    FILE *fp;
+    fp = fopen(filename, "wt+");
+    if (fp == NULL)
+    {
+        cout << "ошибка при открытии файла createfile" << endl;
+    }
 
+    fclose(fp);
+    return 0;
+}
 
 int calculatebrackets_byfgetc(char filename[])
 {
 
     FILE *fp;
-    fp = fopen(filename, "r" );
-    if (fp = NULL);
+    fp = fopen(filename, "rt");
+
+    if (fp == NULL);
     {
-        cout << "Ошибка при открытии файла" << endl;
+        cout << "Ошибка при открытии файла calculatebrackets_byfgetc " << endl;
+        int i = 0;
+        while (1)
+        {
+            cout << filename[i];
+            i += 1;
+            if (filename [i] == '\0' || filename[i] == '\n')
+                break;
+        }
         return -1;
     }
     
@@ -173,16 +193,97 @@ int calculatebracketsby_fgets(char fn[])
         cout << "Ошибка при открытии файла" << endl;
         return -1;
     }
-    char a[40] = "";
 
-    fgets(a, 40, fp);
+
+    int openbracket1 = 0;
+    int openbracket2 = 0;
+    int openbracket3 = 0;
+    int closebracket1 = 0;
+    int closebracket2 = 0;
+    int closebracket3 = 0;
+
     bool efo = 0;
 
-
-    while (!efo)
+    while (!feof(fp))
     {
-        
+        cout << "flag1" << endl;
+        char a[40] = ""; // засунул инициализацию сюда а не вне цикла на всякий случай чтобы случайно не получилось что нету символа '\0' после перезаписи
+        fgets(a, 40, fp);
+        for (int i = 0; i < 40; i++)
+        {
+            cout << a[i];
+            if (a[i] == EOF)
+            {
+                efo = 1;
+                break;
+            }
+            if (a[i] == '\n')
+            {
+                break;
+            }
+
+            if (a[i] == '[')
+            {
+                openbracket1 += 1;
+                continue;
+            }
+
+            if (a[i] == '{')
+            {
+                openbracket2 += 1;
+                continue;
+            }
+
+            if (a[i] == '(')
+            {
+                openbracket3 += 1;
+                continue;
+            }
+
+            if (a[i] == ']')
+            {
+                closebracket1 += 1;
+                continue;
+            }
+
+            if (a[i] == '}')
+            {
+                closebracket2 += 1;
+                continue;
+            }
+
+            if (a[i] == ')')
+            {
+                closebracket3 += 1;
+                continue;
+            }      
+        }
+        if (!efo)
+        {
+            fgets(a, 40, fp);
+        }
     }
+
+    if (openbracket1 == closebracket1)
+        cout << "Скобки [] расставлены верно" << endl;
+
+    else
+        cout << "Скобки [] расставлены неверно" << endl;
+
+    if (openbracket2 == closebracket2)
+        cout << "Скобки {} расставлены верно" << endl;
+
+    else
+        cout << "Скобки {} расставлены неверно" << endl;
+
+    if (openbracket3 == closebracket3)
+        cout << "Скобки () расставлены верно" << endl;
+
+    else
+        cout << "Скобки () расставлены верно" << endl;
+
+    fclose(fp);   
+    return 0;
 
 }
 
@@ -190,6 +291,11 @@ int calculatebracketsby_fgets(char fn[])
 
 int main()
 {
+    char a[] = "textfile.txt";
+
+    
+    //createfile(a);
+    calculatebracketsby_fgets(a);
 
 }
 

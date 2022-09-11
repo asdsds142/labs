@@ -1,9 +1,4 @@
-#include <iostream>
-#include <string>
-#include <fstream>
-
-
-using namespace std;
+#include "header.h"
 
 
 int createfile(char filename[])
@@ -19,23 +14,14 @@ int createfile(char filename[])
     return 0;
 }
 
-int calculatebrackets_byfgetc(char filename[])
+int calculatebrackets_byfgetc(char fn[])
 {
 
     FILE *fp;
-    fp = fopen(filename, "rt");
-
-    if (fp == NULL);
+    fp = fopen(fn, "r");
+    if (fp == NULL)
     {
-        cout << "Ошибка при открытии файла calculatebrackets_byfgetc " << endl;
-        int i = 0;
-        while (1)
-        {
-            cout << filename[i];
-            i += 1;
-            if (filename [i] == '\0' || filename[i] == '\n')
-                break;
-        }
+        cout << "Ошибка при открытии файла" << endl;
         return -1;
     }
     
@@ -291,7 +277,7 @@ int calculatebracketsby_fgets(char fn[])
 
 int main()
 {
-    char a[] = "textfile.txt";
+    char a[] = "textfile.txt"; 
 
     
     //createfile(a);

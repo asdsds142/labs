@@ -92,11 +92,13 @@ void Matrix::sort()
     int icount = 1;
     while (icount)
     {
+        icount = 0;
         for (int c1 = 0; c1 < cntr; c1++)
         {
             if (this->average[d[c1]] < this->average[d[c1+1]])
             {
                 replace_a1_a2(d[c1], d[c1+1]);
+                icount += 1;
             }
         }
     }

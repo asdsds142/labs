@@ -1,9 +1,11 @@
 #pragma once
 
-using namespace std;
-
 #include <iostream>
+#include <string>
 #include <fstream>
+
+
+using namespace std;
 
 /*Лабораторная работа 9.
 
@@ -20,4 +22,11 @@ using namespace std;
 */
 
 
+int calculatebrackets_byfgetc(char fn[]);
+int createfile(char filename[]);
+int calculatebracketsby_fgets(char fn[]);
 
+
+//доделать немного файловые функции, подсчет скобок вроде готов и работает осталась запись его результатов и мелкие другие функции
+// + проверить посимвольную работу, прошные разы она не хотела открывать свой файл хотя набран код был супер правильно
+//сейчас скопировал туда открытие из работающей построчной функции но еще не тестировал

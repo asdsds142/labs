@@ -16,6 +16,9 @@ stud::stud()
     this->name.append(father);
     this->name.append(" ");
 
+    //можно было сюда приделать защиту от ввода 4 символов с пробелом но я решил нинада,
+    //можно потом сделать через getline для всяких имен больше чем из 3 слов но то не критично
+
     cout << "Итоговое имя " << this->name << endl;
 
     cout << "\nВведите курс" << endl;
@@ -26,22 +29,42 @@ stud::stud()
         cin >> a;
         if (a < 1 || a > 6) // Допустим 6 курсов на всякий случай, но в случае чего можно быстро заменить циферку и делать от 4
         {
+
             cout << "Введенный курс неправильного формата, попробуйте еще раз" << endl;
+
+            if(char(cin.peek()) == '\n')
+                cin.ignore();
+
+            if (cin.fail()) 
+            {
+                cin.clear(); //Нашел в интернете код который дает защиту от неправильного ввода, пробовал просто писать всякие Cin.clear, считывать оставшееся в строки не работало
+                cin.ignore(32767, '\n');
+            }
             continue;
         }
         this->kurs = a;
         break;
     }
+    
     cout << "\nВведите количество оценок" << endl; 
     while (1)
     {
         int a;
         cout << "looptester" << endl;
         cin >> a;
-        if (a < 1) // Допустим 6 курсов на всякий случай, но в случае чего можно быстро заменить циферку и делать от 4
+        if (a < 1 || a > 35) // больше 35 оценок чтобы случайно не тыкнуть огромную циферку и не погубить программу
         {
             cout << "Введенные данные неправильного формата, попробуйте еще раз" << endl;
-            cin.clear();
+
+            if(char(cin.peek()) == '\n')
+                cin.ignore();
+
+            if (cin.fail()) 
+            {
+                cin.clear();
+                cin.ignore(32767, '\n');
+            }
+
             continue;
         }
         this->scorenumber = a;
@@ -57,11 +80,22 @@ stud::stud()
         {
             cout << "Введенная оценка неправильного формата, попробуйте еще раз " << endl;
             i -= 1;
+            if(char(cin.peek()) == '\n')
+                cin.ignore();
+
+            if (cin.fail()) 
+            {
+                cin.clear();
+                cin.ignore(32767, '\n');
+            }
+
             continue;
         }
         this->p[i] = a;
 
     } // доделать
+
+    get_status();
     cin.clear();
     
 
@@ -69,31 +103,31 @@ stud::stud()
 }
 
 
-short getstatus(stud s)
+short stud::get_status()
 {
     short st = 5;
-    for (int i = 0; i < s.scorenumber; i++)
+    for (int i = 0; i < this->scorenumber; i++)
     {
-        if (s.p[i] == 1 || s.p[i] == 2 || s.p[i] == 3)
+        if (this->p[i] == 1 || this->p[i] == 2 || this->p[i] == 3)
         {
             st = 2;
             break;
         }
 
-        if ((s.p[i] == 4 || s.p[i] == 5) && st < 4)
+        if (((this->p[i] == 4 || this->p[i] == 5)) && st > 4)
         {
             st = 3;
             continue;
         }
 
-        if ((s.p[i] == 6 || s.p[i] == 7 || s.p[i] == 8) && st < 5)
+        if (((this->p[i] == 6 || this->p[i] == 7 || this->p[i] == 8)) && st > 5)
         {
             st = 4;
             continue;
         }
     }
 
-    s.status = st;
+    this->status = st;
     return st;
 }
 
@@ -129,3 +163,14 @@ void sort_kurs(stud a[], int number)
 
 
 
+void stud::show()
+{
+    cout << "ФИО: " << this->name << endl << this->kurs << " Курс" << endl;
+    for (int i = 0; i < this->scorenumber; i++)
+    {
+        cout << this->p[i] << " ";
+    }
+
+    cout << "Суммарный статус: " << this->status << endl << endl;
+    cout << endl;
+}

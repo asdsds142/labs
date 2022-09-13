@@ -25,7 +25,7 @@ stud::stud()
     while (1)
     {
         int a;
-        cout << "looptester" << endl;
+        //cout << "looptester" << endl;
         cin >> a;
         if (a < 1 || a > 6) // Допустим 6 курсов на всякий случай, но в случае чего можно быстро заменить циферку и делать от 4
         {
@@ -50,7 +50,7 @@ stud::stud()
     while (1)
     {
         int a;
-        cout << "looptester" << endl;
+        //cout << "looptester" << endl;
         cin >> a;
         if (a < 1 || a > 35) // больше 35 оценок чтобы случайно не тыкнуть огромную циферку и не погубить программу
         {
@@ -96,7 +96,6 @@ stud::stud()
     } // доделать
 
     get_status();
-    cin.clear();
     
 
     
@@ -106,22 +105,26 @@ stud::stud()
 short stud::get_status()
 {
     short st = 5;
+    //cout << "getstatus started " << endl;
     for (int i = 0; i < this->scorenumber; i++)
     {
         if (this->p[i] == 1 || this->p[i] == 2 || this->p[i] == 3)
         {
             st = 2;
+            //cout << "getstatus flag1";
             break;
         }
 
-        if (((this->p[i] == 4 || this->p[i] == 5)) && st > 4)
+        if (((this->p[i] == 4 || this->p[i] == 5)) && st > 3)
         {
+            //cout << "getstatus flag2";
             st = 3;
             continue;
         }
 
-        if (((this->p[i] == 6 || this->p[i] == 7 || this->p[i] == 8)) && st > 5)
+        if (((this->p[i] == 6 || this->p[i] == 7 || this->p[i] == 8)) && st > 4)
         {
+            //cout << "getstatus flag3";
             st = 4;
             continue;
         }
@@ -133,32 +136,53 @@ short stud::get_status()
 
 
 
-void sort_kurs(stud a[], int number)
-{  
-    stud tmp;
 
-    for (int i = 0; i < number; i++)
+void sort_kurs(stud a[], int number)
+{
+    for (int i = 0; i < number-1; i++)
     {
-        int n = 0;
-        do
+        int minindex = i;
+        for (int j = i+1; j < number; j++)
         {
-            if (a[i].kurs < a[i+1].kurs)
+            if (a[j].kurs < a[minindex].kurs)
             {
-                tmp = a[i];
-                a[i] = a[i+1];
-                a[i+1] = tmp;
-                n += 1;
+                minindex = j;
             }
-            if (a[i].kurs == a[i+1].kurs && a[i].status < a[i+1].status)
-            {
-                tmp = a[i];
-                a[i] = a[i+1];
-                a[i+1] = tmp;
-                n += 1;
-            }
-        } while (n != 0);   
+        }
+        if (minindex != i)
+            swap(a[i], a[minindex]);
     }
 }
+
+
+void sort_status(stud a[], int number)
+{
+    for (int i = 0; i < number-1; i++)
+    {
+        int minindex = i;
+        for (int j = i+1; j < number; j++)
+        {
+            if (a[j].status > a[minindex].status && a[j].kurs == a[minindex].kurs)
+            {
+                minindex = j;
+            }
+        }
+        if (minindex != i)
+            swap(a[i], a[minindex]);
+    }
+}
+
+
+
+
+
+
+
+stud::stud(int a)
+{
+
+}
+
 
 
 
@@ -171,6 +195,6 @@ void stud::show()
         cout << this->p[i] << " ";
     }
 
-    cout << "Суммарный статус: " << this->status << endl << endl;
+    cout << "Суммарный статус: " << this->status << endl;
     cout << endl;
 }

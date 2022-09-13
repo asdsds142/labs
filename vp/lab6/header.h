@@ -26,12 +26,13 @@ struct stud
     int kurs;
     short status;
     stud();
+    stud(int);
     void show();
     short get_status();
 };
 
 
-//void sort_status(stud[]);
+void sort_status(stud[], int number);
 void sort_kurs(stud[], int number);
 
 

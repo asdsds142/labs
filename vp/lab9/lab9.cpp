@@ -26,7 +26,6 @@ int calculatebrackets_byfgetc(char fn[])
     }
     
     char ch;
-    ch = fgetc(fp);
 
     int openbracket1 = 0;
     int openbracket2 = 0;
@@ -36,8 +35,9 @@ int calculatebrackets_byfgetc(char fn[])
     int closebracket3 = 0;
 
 
-    while(ch != EOF)
+    while(!feof(fp))
     {
+        ch = fgetc(fp);
         /*if (ch == '/')
         {
             ch = fgetc(fp);
@@ -116,7 +116,7 @@ int calculatebrackets_byfgetc(char fn[])
 
         if (ch == ']')
         {
-            closebracket2 += 1;
+            closebracket1 += 1;
             continue;
         }
 
@@ -131,7 +131,6 @@ int calculatebrackets_byfgetc(char fn[])
             closebracket3 += 1;
             continue;
         }
-        ch = fgetc(fp);
     }
 
 
@@ -147,31 +146,37 @@ int calculatebrackets_byfgetc(char fn[])
     if (openbracket1 == closebracket1)
     {
         cout << "Скобки [] расставлены верно" << endl;
+        fputs("Скобки [] расставлены верно\n", fptr);
     }
 
     else
     {
         cout << "Скобки [] расставлены неверно" << endl;
+        fputs("Скобки [] расставлены неверно\n", fptr);
     }
 
     if (openbracket2 == closebracket2)
     {
         cout << "Скобки {} расставлены верно" << endl;
+        fputs("Скобки {} расставлены верно\n", fptr);
     }
 
     else
     {
         cout << "Скобки {} расставлены неверно" << endl;
+        fputs("Скобки {} расставлены неверно\n", fptr);
     }
 
     if (openbracket3 == closebracket3)
     {
         cout << "Скобки () расставлены верно" << endl;
+        fputs("Скобки () расставлены верно\n", fptr);
     }
 
     else
     {
-        cout << "Скобки () расставлены верно" << endl;
+        cout << "Скобки () расставлены неверно" << endl;
+        fputs("Скобки () расставлены неверно\n", fptr);
     }
 
     fclose(fp);   

@@ -134,6 +134,16 @@ int calculatebrackets_byfgetc(char fn[])
         ch = fgetc(fp);
     }
 
+
+    FILE *fptr;
+    fptr = fopen("result.txt", "w");
+    if (fp == NULL)
+    {
+        cout << "Ошибка при открытии файла" << endl;
+        return -1;
+    }
+    
+
     if (openbracket1 == closebracket1)
     {
         cout << "Скобки [] расставлены верно" << endl;
@@ -250,25 +260,87 @@ int calculatebracketsby_fgets(char fn[])
         }
     }
 
+    FILE *fptr;
+    fptr = fopen("result.txt", "w");
+    if (fp == NULL)
+    {
+        cout << "Ошибка при открытии файла" << endl;
+        return -1;
+    }
+
     if (openbracket1 == closebracket1)
+    {
         cout << "Скобки [] расставлены верно" << endl;
+        fputs("Скобки [] расставлены верно \n", fptr);
+    }
 
     else
+    {
         cout << "Скобки [] расставлены неверно" << endl;
+        fputs("Скобки [] расставлены неверно\n", fptr);
+    }
 
     if (openbracket2 == closebracket2)
+    {
         cout << "Скобки {} расставлены верно" << endl;
+        fputs("Скобки {} расставлены верно\n", fptr);
+    }
 
     else
+    {
         cout << "Скобки {} расставлены неверно" << endl;
-
+        fputs("Скобки {} расставлены неверно\n", fptr);
+    }
     if (openbracket3 == closebracket3)
+    {
         cout << "Скобки () расставлены верно" << endl;
+        fputs("Скобки () расставлены верно", fptr);
+    }
 
     else
-        cout << "Скобки () расставлены верно" << endl;
+    {
+        cout << "Скобки () расставлены неверно" << endl;
+        fputs("Скобки () расставлены неверно\n", fptr);
+    }
 
     fclose(fp);   
     return 0;
 
+}
+ 
+
+int show_file(char filename[])
+{
+    FILE *fp;
+    fp = fopen(filename, "r");
+    if (fp == NULL)
+    {
+        cout << "Ошибка при открытии файла" << endl;
+        return -1;
+    }
+
+
+    char buffer[80];
+    while(!feof(fp))
+    {
+        fgets(buffer, 80, fp);
+        cout << buffer;
+    }
+    return 0;
+}
+
+
+int append_to_file(char filename[], char buffer[])
+{
+    FILE *fp;
+    fp = fopen(filename, "a");
+    if (fp == NULL)
+    {
+        cout << "Ошибка при открытии файла" << endl;
+        return -1;
+    }
+
+    fputs(buffer, fp);
+
+    return 0;
 }

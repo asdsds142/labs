@@ -25,17 +25,29 @@ using namespace std;
 class Matrix
 {
 private:
-    int i, j;
-    int **ptr;
-    int *numbersnumber;
-    double *average;
-    bool *is_bad;
 
 public:
-    Matrix(int, int);
-    Matrix(int, int, int);
+
+    int i;
+    struct stroka
+    {
+        int *p;
+        int numbersnumber;
+        double average;
+        bool is_bad;
+        stroka();
+        double calculate_string_average();
+        bool calculate_is_bad();
+        //void operator=(stroka);
+    };
+    
+    stroka *pointer;
+    stroka **ptr;
+    Matrix(int);
+
     void replace_a1_a2(int a1, int a2);
     double calculate_string_average(int);
     void show();
     void sort();
+    ~Matrix();
 };

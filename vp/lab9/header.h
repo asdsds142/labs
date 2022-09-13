@@ -24,6 +24,8 @@ using namespace std;
 
 int calculatebrackets_byfgetc(char fn[]);
 int createfile(char filename[]);
+int append_to_file(char filename[], char[]);
+int show_file(char filename[]);
 int calculatebracketsby_fgets(char fn[]);
 
 

@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -25,6 +26,8 @@ private:
     long number;
     long intercity_time;
     long incity_time;
+
+    void cin_tester();
 
 public:
     Phone();
@@ -52,7 +55,6 @@ public:
     void show();
     void add_intercity_call_time(long);
     void add_incity_call_time(long);
-
 
 
 

@@ -331,6 +331,7 @@ int show_file(char filename[])
         fgets(buffer, 80, fp);
         cout << buffer;
     }
+    fclose(fp);
     return 0;
 }
 
@@ -346,6 +347,8 @@ int append_to_file(char filename[], char buffer[])
     }
 
     fputs(buffer, fp);
+
+    fclose(fp);
 
     return 0;
 }

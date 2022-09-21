@@ -8,13 +8,13 @@
 int main()
 {
     char a[] = "textfile.txt"; 
-    char b[] = "asdsds.txt";
-    
-
-    append_to_file(b, b);
-    show_file(b);
-    calculatebrackets_byfgetc(a);
-    //calculatebracketsby_fgets(a);
+    char b[] = "((([dfghjkl(()))))){{       olikyj [{{{}}}}}{}[][][][]    {";
+    createfile(a);
+    append_to_file(a, b);
+    cout << endl;
+    show_file(a);
+    //calculatebrackets_byfgetc(a);
+    calculatebracketsby_fgets(a);
 
 }
 

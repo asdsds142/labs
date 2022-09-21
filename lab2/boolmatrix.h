@@ -37,6 +37,7 @@ public:
     BoolMatrix operator|(BoolMatrix);
     BoolMatrix operator/(BoolMatrix);
     void operator=(BoolMatrix);
+	long count_ones();
 
 
 	

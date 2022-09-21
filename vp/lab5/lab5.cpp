@@ -102,9 +102,6 @@ void Matrix::replace_a1_a2(int a1, int a2)
     //cout <<"replace bigflag" << tmp << " " << this->ptr[a1] << " " << this->ptr[a2] << endl;
     this->ptr[a1] = this->ptr[a2];
     this->ptr[a2] = tmp;
-
-
-
 }
 
 
@@ -207,9 +204,7 @@ void Matrix::sort()
             replace_a1_a2(d[c1], d[max_index]);
         }
     }
-
     //cout << "sort flag2" << endl;
-
 }
 
 
@@ -255,4 +250,5 @@ bool Matrix::stroka::calculate_is_bad()
 Matrix::~Matrix()
 {
     delete this->ptr;
+    delete this->pointer;
 }

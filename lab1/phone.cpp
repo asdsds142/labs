@@ -2,28 +2,53 @@
 
 Phone::Phone()
 {
+    string tmp1;
+    int tmp2 = -1;
+    int c1 = 0;
+
+    cout << "Phone constructor started" << endl;
     cout << "Введите фамилию" << endl;
     cin >> this->surname;
     cout << "Введите имя" << endl;
     cin >> this->name;
     cout << "Введите отчество" << endl;
     cin >> this->father_name;
-    cout << "Введите адресс" << endl;
-    cin >> this->adress;
+
+    cin.ignore(2221, '\n');
+    string tmpbuf;
+    cout << "Введите адрес" << endl;
+    getline(cin, tmpbuf);
+    this->adress = tmpbuf;
+
     cout << "Введите номер" << endl;
     cin >> this->number;
-    cout << "Введите время междугородних разговоров" << endl;
-    cin >> this->intercity_time;
     cout << "Введите время внутригородних разговоров" << endl;
     cin >> this->incity_time;
+    cout << "Введите время междугородних разговоров" << endl;
+    cin >> this->intercity_time;
+}
+
+void Phone::cin_tester()
+{
+    if(char(cin.peek()) == '\n')
+        cin.ignore();
+
+    if (cin.fail()) 
+    {
+        cin.clear();
+        cin.ignore(32767, '\n');
+    }
 }
 
 
 Phone::Phone(string filename)
 {
     ifstream fp;
-    fp >> this->surname >> this->name >> father_name;
+    getline(fp, this->surname);
+    getline(fp, this->name);
+    getline(fp, this->father_name);
     getline(fp, this->adress);
+
     fp >> this->number >> this->incity_time >> this->intercity_time;
 }
 
@@ -88,9 +113,9 @@ void Phone::show()
 
 void Phone::to_file(string filename)
 {
-    ofstream fp;
+    ofstream fp{filename};
 
-    fp << surname << " " << name << " " << father_name << "\n" << adress << "\n" << number << " " << incity_time << " " << intercity_time << endl;
+    fp << surname << endl << name << endl << father_name << endl << adress << endl << number << endl << incity_time << endl << intercity_time << endl;
     
 }
 

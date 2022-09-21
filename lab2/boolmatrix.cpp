@@ -13,10 +13,10 @@ BoolMatrix::BoolMatrix(int a, int b)
 
         for (int c2 = 0; c2 < b; c2++)
         {
-            short a;
-            cin >> a;
+            short tmp;
+            cin >> tmp;
 
-            if (a)
+            if (tmp)
                 n += pow(2, c2);
         }
 
@@ -182,6 +182,25 @@ void BoolMatrix::operator=(BoolMatrix A)
 
     
 
+}
+
+
+
+long BoolMatrix::count_ones()
+{
+    long sum = 0;
+    for (int c1 = 0; c1 < this->i; i++)
+    {
+        long c2 = this->p[c1];
+        int cntr = 1;
+        while (c2)
+        {
+            sum += c2%2;
+            c2 /= 2;
+        }
+    }
+
+    return sum;
 }
 
 

@@ -133,3 +133,137 @@ void Btree::sort(vector<double> v)
         }       
     }
 }
+
+
+bool Btree::find(double value)
+{
+    if (value == root->value)
+    {
+        cout << "Значение найдено" << endl;
+        return 1;
+    }
+
+    bool result = 0;
+    if (value < root->value)
+    {
+        result = find(value, root->left);
+        return result;
+    }
+
+    if (value > root->value)
+    {
+        result = find(value, root->right);
+        return result;
+    }
+}
+
+
+bool Btree::find(double value, node* ptr)
+{
+    if (value == ptr->value)
+    {
+        cout << "Значение найдено" << endl;
+        return 1;
+    }
+
+    bool result = 0;
+    if (value < ptr->value)
+    {
+        if (!ptr->left)
+        {
+            cout << "Значение не найдено" << endl;
+            return result;
+        }
+        result = find(value, ptr->left);
+        return result;
+    }
+
+    if (value > root->value)
+    {
+        if (!ptr->right)
+        {
+            cout << "Значение не найдено" << endl;
+            return result;
+        }
+        result = find(value, ptr->right);
+        return result;
+    }
+}
+
+//можно давать ей пустой массив на вход и давать работать с ним ну потом на тестировании попробую
+//функция сортирующая дерево в массив от меньшего к большему или наоборот в зависимости от flag (1 возрастание, 0 убывание)
+vector<double> Btree::get_sorted(bool flag)
+{
+    vector<double> result;
+    
+    if (flag)
+    {
+        if (this->root->left)
+        {
+            get_sorted(flag, result, this->root->left);
+        }
+        else
+        {
+            result.push_back(this->root->value);
+            if (this->root->right)
+            {
+                get_sorted(flag, result, this->root->right);
+            }
+        }
+    }
+
+    else
+    {
+        if (this->root->right)
+        {
+            get_sorted(flag, result, this->root->right);
+        }
+        else
+        {
+            result.push_back(this->root->value);
+            if (this->root->left)
+            {
+                get_sorted(flag, result, this->root->left);
+            }
+        }
+    }
+
+    return result;
+}
+
+//проверить передачу массива, но так вроде должно работать хоть я и не тестировал
+
+void Btree::get_sorted(bool flag, vector<double> result, node* ptr)
+{
+    if (flag)
+    {
+        if (ptr->left)
+        {
+            get_sorted(flag, result, ptr->left);
+        }
+        else
+        {
+            result.push_back(ptr->value);
+            if (ptr->right)
+            {
+                get_sorted(flag, result, ptr->right);
+            }
+        }
+    }
+
+    else
+    {
+        if (ptr->right)
+        {
+            get_sorted(flag, result, ptr->right);
+        }
+        else
+        {
+            result.push_back(ptr->value);
+            if (ptr->left)
+            {
+                get_sorted(flag, result, ptr->left);
+            }
+        }
+    }
+}

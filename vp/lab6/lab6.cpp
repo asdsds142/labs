@@ -93,7 +93,7 @@ stud::stud()
         }
         this->p[i] = a;
 
-    } // доделать
+    } 
 
     get_status();
     

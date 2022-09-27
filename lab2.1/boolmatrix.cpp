@@ -314,7 +314,7 @@ BoolMatrix BoolMatrix::operator*(BoolMatrix matrix)
 {
     cout << "BoolMatrix BoolMatrix::operator*(BoolMatrix matrix) started" << endl;
     BoolMatrix result{this->i, matrix.j, 0};
-    //по хорошему я не особа должен конкретно тут обрабатывать выбросы всякие троу кетчи потому что я их не знаю но маленькую защиту все же приделаю сиаутом
+  
 
     if (this->j != matrix.i)
     {
@@ -351,7 +351,7 @@ ostream& operator<<(ostream &out, BoolMatrix matrix)
 {
     cout << "operator << (boolmatrix) started" << endl;
     out << matrix.get_i() << " " << matrix.get_j() << endl;
-    for (int c1 = 0; c1 < matrix.get_i(); c1++) //протестировать но вроде должно работать
+    for (int c1 = 0; c1 < matrix.get_i(); c1++) 
     {
         for (int c2 = 0; c2 < matrix.get_j(); c2++)
         {
@@ -363,7 +363,7 @@ ostream& operator<<(ostream &out, BoolMatrix matrix)
     return out;
 }
 
-//Должно работать но я не тестил еще
+
 void BoolMatrix::lexicographic_sort()
 {
     cout << "void BoolMatrix::lexicographic_sort() started" << endl;
@@ -377,16 +377,17 @@ void BoolMatrix::lexicographic_sort()
         }
     }
 
-    for (int c1 = 0; c1 < this->i; c1++)
+    for (int c1 = 0; c1 < this->i - 1; c1++)
     {
-        int c2 = 0;
-        while (!c2)
+        int c2 = 1;
+        while (c2)
         {
             c2 = 0;
             //сравниваю мои двоечки и где больше там и больше приоритет у строчки
             if (number[c1] < number[c1+1])
             {
                 swap(this->p[c1], this->p[c1+1]);
+                swap(number[c1], number[c1+1]);
                 c2 += 1;
             }
         }
@@ -395,6 +396,6 @@ void BoolMatrix::lexicographic_sort()
 }
 
 
-//todo затестировать
+
 
 

@@ -28,18 +28,6 @@ Phone::Phone()
     cin >> this->intercity_time;
 }
 
-void Phone::cin_tester()
-{
-    if(char(cin.peek()) == '\n')
-        cin.ignore();
-
-    if (cin.fail()) 
-    {
-        cin.clear();
-        cin.ignore(32767, '\n');
-    }
-}
-
 
 Phone::Phone(string filename)
 {

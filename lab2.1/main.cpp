@@ -25,6 +25,21 @@ int main()
     C = A&B;
     C.to_file(filename3);
     cout << C;
+
+    C.lexicographic_sort();
+    cout << C;
     
+    C.inverse();
+    cout << C;
+
+    C.lexicographic_sort();
+    cout << C;
+
+
+    cout << "---------------------------------------------" << endl;
+    BoolMatrix D{filename3};
+    D = A*B;
+    cout << D;
+
     return 0;
 }

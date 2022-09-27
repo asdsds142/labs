@@ -14,8 +14,8 @@ void tester(string num)
     cout << "flag" << num << endl;
 }
 
-
-Btree::Btree(double v)
+template<class T>
+Btree<T>::Btree(T v)
 {
     cout << "Btree::Btree(double v) started" << endl;
     node n;
@@ -24,8 +24,8 @@ Btree::Btree(double v)
     cout << "Btree::Btree(double v) finished" << endl;
 }
 
-
-Btree::Btree(vector<double> v)
+template<class T>
+Btree<T>::Btree(vector<T> v)
 {
     cout << "Btree::Btree(vector<double> v) started" << endl;
     sort(&v);
@@ -46,8 +46,8 @@ Btree::Btree(vector<double> v)
 }
 
 
-
-Btree::Btree(string filename)
+template<class T>
+Btree<T>::Btree(string filename)
 {
     cout << "Btree::Btree(string filename) started" << endl;
     ifstream fp{filename};
@@ -83,8 +83,8 @@ Btree::Btree(string filename)
 }
 
 
-
-void Btree::add(double v)
+template<class T>
+void Btree<T>::add(T v)
 {
     cout << "void Btree::add(double v) started" << endl;
     if (this->root)
@@ -98,8 +98,8 @@ void Btree::add(double v)
     cout << "void Btree::add(double v) finished" << endl;
 }
 
-
-void Btree::add(node* n, double v)
+template<class T>
+void Btree<T>::add(node* n, T v)
 {
     cout << "void Btree::add(node* n, double v) started" << endl;
     if (flag) //пока не буду дописывать возможно тут можно макросом переназначить больше меньше
@@ -134,8 +134,8 @@ void Btree::add(node* n, double v)
     cout << "void Btree::add(node* n, double v) finished" << endl;
 }
 
-
-void Btree::write_to_file(string filename, node* ptr)
+template<class T>
+void Btree<T>::write_to_file(string filename, node* ptr)
 {
     cout << "void Btree::write_to_file(string filename, node* ptr) started" << endl;
     if (ptr->left)
@@ -150,14 +150,14 @@ void Btree::write_to_file(string filename, node* ptr)
 }
 
 
-
-void Btree::write_to_file(string filename)
+template<class T>
+void Btree<T>::write_to_file(string filename)
 {
     write_to_file(filename, this->root);
 }
 
-
-void Btree::sort(vector<double> *v)
+template<class T>
+void Btree<T>::sort(vector<T> *v)
 {
     cout << "void Btree::sort(vector<double> v) started" << endl;
     int n = 1;
@@ -188,8 +188,8 @@ void Btree::sort(vector<double> *v)
     cout << "void Btree::sort(vector<double> v) finished" << endl;
 }
 
-
-bool Btree::find(double value)
+template<class T>
+bool Btree<T>::find(T value)
 {
     cout << "bool Btree::find(double value) started" << endl;
     if (value == root->value)
@@ -213,8 +213,8 @@ bool Btree::find(double value)
     cout << "bool Btree::find(double value) finished" << endl;
 }
 
-
-bool Btree::find(double value, node* ptr)
+template<class T>
+bool Btree<T>::find(T value, node* ptr)
 {
     cout << "bool Btree::find(double value, node* ptr) started" << endl;
     if (value == ptr->value)
@@ -250,10 +250,11 @@ bool Btree::find(double value, node* ptr)
 
 //можно давать ей пустой массив на вход и давать работать с ним ну потом на тестировании попробую
 //функция сортирующая дерево в массив от меньшего к большему или наоборот в зависимости от flag (1 возрастание, 0 убывание)
-vector<double> Btree::get_sorted(bool flag)
+template<class T>
+vector<T> Btree<T>::get_sorted(bool flag)
 {
     cout << "vector<double> Btree::get_sorted(bool flag) started" << endl;
-    vector<double> result;
+    vector<T> result;
     
     if (flag)
     {
@@ -290,8 +291,8 @@ vector<double> Btree::get_sorted(bool flag)
 }
 
 //как то от иф элсов надобно бы перейти к нормальной программе то так цифор малавата получаетса помойму
-
-void Btree::get_sorted(bool flag, vector<double> *result, node* ptr)
+template<class T>
+void Btree<T>::get_sorted(bool flag, vector<T> *result, node* ptr)
 {
     cout << "void Btree::get_sorted(bool flag, vector<double> result, node* ptr) started" << endl;
     if (flag)
@@ -329,5 +330,5 @@ void Btree::get_sorted(bool flag, vector<double> *result, node* ptr)
     cout << "void Btree::get_sorted(bool flag, vector<double> result, node* ptr) finished" << endl;
 }
 
-
-Btree::~Btree(){}
+template<class T>
+Btree<T>::~Btree(){}

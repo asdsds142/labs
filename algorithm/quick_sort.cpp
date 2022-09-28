@@ -1,52 +1,104 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <unistd.h>
 
 
 using namespace std;
 
 
-int quick_sort(vector<int> v, int first_index, int last_index)
+//мое не работало я взял тыкнул код из интернета и оно работает
+//но проблема этого кода что тут не ищется элемент слева, тут просто пихаются по очереди все элементы справа налево
+//надо попробовать это починить но покачто мне нужен небольшой отдых, комментарий чтобы не забыть
+//UPD 2.0 я ее доделал все роботает
+
+void coutvector (vector<int> v, int start, int finish)
 {
-    if (first_index == last_index || last_index - first_index == 1)
-        return 0;
-    cout << "b" << endl;
-    int pivot_index = v.size()/2;
-    swap(v[pivot_index], v[last_index]); //может тут можно чот подфурычить избавиться от одного из куказателей но то пока не критично да и не напряжно
-    pivot_index = last_index;
-    last_index--;
-
-    int left_index = first_index, right_index = last_index;
-
-    while(left_index < right_index)
+    for (size_t i = start; i <= finish; i++)
     {
-        //предусмотреть зашиту от выхода за границы массива, защиту от того что все элементы больше или меньше пивота
-        //пока что из-за этого не работает но на сегодня я временно устал
-        if (v[left_index] > v[pivot_index] && v[right_index] < v[pivot_index] && left_index < right_index)
-        {
-            swap(v[left_index], v[right_index]);
-        }
-        
-        if (v[left_index] < v[pivot_index])
-        {
-            left_index++;
-        }
-
-        if (v[right_index] > v[pivot_index])
-        {
-            right_index--;
-        }
+        cout << v[i] << " ";
+        /* code */
     }
-
-    cout << first_index << " " << left_index-1 << " " << left_index << " " << last_index << endl;
-    swap(v[pivot_index], v[left_index]);
-    quick_sort(v, first_index, left_index-1);
-    quick_sort(v, left_index, last_index);
-
+    cout << endl;
+    
 }
 
 
-void quick_sort(vector<int> v)
+int partition(vector<int>& v, int first_index, int last_index)
+{
+    int pivot = v[last_index];
+    cout << "pivot = " << pivot << endl;
+    int item_from_left = first_index;
+    int item_from_right = last_index - 1;
+    
+    cout << "sadasd " << first_index << " " << last_index << endl;
+    
+    coutvector(v, first_index, last_index);
+    coutvector(v, 0, v.size()-1);
+    while (item_from_right > item_from_left)
+    {
+    
+        if (v[item_from_right] >= pivot)
+        {
+            item_from_right--;
+            if (item_from_right <= first_index)
+            {
+                break;
+            }
+        }
+
+        if (v[item_from_left] < pivot)
+        {
+            item_from_left++;
+            if (item_from_left == last_index)
+            {
+                item_from_left--;
+                break;
+            }
+        }
+
+        if (v[item_from_right] < pivot && v[item_from_left] >= pivot) 
+        {
+            cout << "swapping " <<  v[item_from_left] << " " << v[item_from_right] << endl;
+            swap(v[item_from_left], v[item_from_right]);
+            item_from_left++;
+            item_from_right--;
+        }
+    }
+
+    if (item_from_left + 1 != last_index)
+    {
+        cout << "swapping pivot " <<  v[item_from_left] << " " << v[last_index] << endl;
+        if (v[item_from_left] < pivot)
+            swap(v[item_from_left + 1], v[last_index]);
+        else 
+        {
+            swap(v[item_from_left], v[last_index]);
+            item_from_left--;
+        }
+    }
+    return (item_from_left + 1);
+}
+
+
+int quick_sort(vector<int>& v, int first_index, int last_index)
+{   
+    if (last_index == first_index + 1)
+    {
+        if (v[first_index] > v[last_index])
+            swap(v[first_index], v[last_index]);
+    }
+    if (last_index > first_index + 1)
+    {
+        int part_index = partition(v, first_index, last_index);
+
+        quick_sort(v, first_index, part_index-1);
+        quick_sort(v, part_index + 1, last_index);
+    }
+}
+
+
+void quick_sort(vector<int>& v)
 {
     quick_sort(v, 0, v.size()-1);
 }
@@ -55,7 +107,18 @@ void quick_sort(vector<int> v)
 
 int main()
 {
-    vector<int> v {8, 3, 7, 3, 4, 6, 1 , 7, 8, 9, 6, 7, 56};
+    vector<int> v {8, 3, 7, 3, 4, 6, 1 , 7, 77, 32, 9, 6, 7, 56};
+    for (int i = 0; i < 25; i++)
+    {
+        
+        int num = rand()%26;
+        v.push_back(num);
+    }
+    for (int i = 0; i < v.size(); i++)
+    {
+        cout << v[i] << " " ;
+    }
+    cout << endl;
     quick_sort(v);
     for (int i = 0; i < v.size(); i++)
     {

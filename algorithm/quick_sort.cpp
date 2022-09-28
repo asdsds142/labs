@@ -95,6 +95,7 @@ int quick_sort(vector<int>& v, int first_index, int last_index)
         quick_sort(v, first_index, part_index-1);
         quick_sort(v, part_index + 1, last_index);
     }
+    return 0;
 }
 
 

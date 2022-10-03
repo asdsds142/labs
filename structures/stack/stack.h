@@ -10,7 +10,8 @@ class Stack
 {
 private:
     vector<int> body;
-    int tail_index = 0;
+    int tail_index = -1;
+    int maxsize;
     
 public:
     Stack(int);

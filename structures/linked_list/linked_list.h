@@ -34,7 +34,4 @@ public:
     T pop_back();
     T pop_front();
     
-
-
-
 };

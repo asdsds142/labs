@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include "time_check.h"
 
 Matrix::Matrix(int size)
 {
@@ -53,7 +54,8 @@ void mstring_mult(Matrix& result, Matrix&& m1, Matrix&& m2, int&& start, int&& f
 //покачто тут все супер плохо, изучу тему чуть позже но сейчас тупа сохраню
 Matrix Matrix::operator*(Matrix matrix)
 {
-    cout << "BoolMatrix BoolMatrix::operator*(BoolMatrix matrix) started" << endl;
+    time_checker checker{"operator*"};
+
     Matrix result{this->i};
     int step = this->i / 4;
     int first_max = step;
@@ -75,7 +77,7 @@ Matrix Matrix::operator*(Matrix matrix)
     tr4.join();
     
 
-    cout << "BoolMatrix BoolMatrix::operator*(BoolMatrix matrix) finished" << endl;
+
     return result;
 }
 

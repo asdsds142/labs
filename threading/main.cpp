@@ -15,15 +15,29 @@ struct time_checker
     }
 };
 
+struct named_time_checker : public time_checker
+{
+    string name;
+    named_time_checker(string buf)
+    {
+        name = buf;
+        cout << name <<  " начала свою работу" << endl;
+    }
+    ~named_time_checker()
+    {
+        cout << name << " закончила свою работу" << endl;
+    }
+};
+
 
 
 int main()
 {
-    time_checker main_checker;
+    named_time_checker main_checker {"main"};
 
-    Matrix a{421};
-    Matrix b{421};
-    Matrix c{421};
+    Matrix a{821};
+    Matrix b{821};
+    Matrix c{821};
 
     c = a*b;
 

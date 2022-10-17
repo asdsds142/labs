@@ -55,33 +55,25 @@ Matrix Matrix::operator*(Matrix matrix)
 {
     cout << "BoolMatrix BoolMatrix::operator*(BoolMatrix matrix) started" << endl;
     Matrix result{this->i};
-    int step = this->i / 8;
+    int step = this->i / 4;
     int first_max = step;
     int second_max = step * 2;
     int third_max = step * 3;
-    int fourth_max = step * 4;
-    int fiveth_max = step * 5;
-    int sixth_max = step * 6;
-    int seventh_max = step * 7;
-    int eights_max = this->i;
+    int fourth_max = this->i;
+
     thread tr1(mstring_mult, std::ref(result), *this, matrix, 0, first_max);
     thread tr2(mstring_mult, std::ref(result), *this, matrix, first_max, second_max);
     thread tr3(mstring_mult, std::ref(result), *this, matrix, second_max, third_max);
     thread tr4(mstring_mult, std::ref(result), *this, matrix, third_max, fourth_max);
-    thread tr5(mstring_mult, std::ref(result), *this, matrix, fourth_max, fiveth_max);
-    thread tr6(mstring_mult, std::ref(result), *this, matrix, fiveth_max, sixth_max);
-    thread tr7(mstring_mult, std::ref(result), *this, matrix, sixth_max, seventh_max);
-    thread tr8(mstring_mult, std::ref(result), *this, matrix, seventh_max, eights_max);
-
+    //можно сделать и больше потоков но эффективность снижается из-за доступа к памяти 
+    //по крайней мере на моем ноутбуке разницы между 4 и 8 потоками немного для 8 ядер
+    //(0.90 время выполнения в 4 потоках, 0.75 в 8 условно) про память в книжке услышал 
 
     tr1.join();
     tr2.join();
     tr3.join();
     tr4.join();
-    tr5.join();
-    tr6.join();
-    tr7.join();
-    tr8.join();
+    
 
     cout << "BoolMatrix BoolMatrix::operator*(BoolMatrix matrix) finished" << endl;
     return result;

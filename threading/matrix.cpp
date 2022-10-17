@@ -32,20 +32,21 @@ void Matrix::show()
     }
 }
 
-void foo(Matrix& result, Matrix m1, Matrix m2, int c1, int c3)
+void mstring_mult(Matrix& result, Matrix&& m1, Matrix&& m2, int&& start, int&& finish)
 {
-    int sum = 0;
-            
-    for (int c2 = 0; c2 < m1.i; c2++)
+    int sizing = m1.i;
+    for (int c1 = start; c1 < finish; c1++)
     {
-        int a, b;
-
-        a = m1.body[c1][c2];
-        b = m2.body[c2][c3];
-
-        sum += (a * b);
-    }
-    result.body[c1][c3] = sum;
+        for (int c3 = 0; c3 < sizing; c3++)
+        {
+            int sum = 0;
+            for (int c2 = 0; c2 < sizing; c2++)
+            {
+                sum += (m1.body[c1][c2] * m2.body[c2][c3]);
+            }
+            result.body[c1][c3] = sum;
+        }
+    }  
 }
 
 //для тренировки сюда приделать многопоточность
@@ -54,24 +55,34 @@ Matrix Matrix::operator*(Matrix matrix)
 {
     cout << "BoolMatrix BoolMatrix::operator*(BoolMatrix matrix) started" << endl;
     Matrix result{this->i};
-    vector<thread> v;
+    int step = this->i / 8;
+    int first_max = step;
+    int second_max = step * 2;
+    int third_max = step * 3;
+    int fourth_max = step * 4;
+    int fiveth_max = step * 5;
+    int sixth_max = step * 6;
+    int seventh_max = step * 7;
+    int eights_max = this->i;
+    thread tr1(mstring_mult, std::ref(result), *this, matrix, 0, first_max);
+    thread tr2(mstring_mult, std::ref(result), *this, matrix, first_max, second_max);
+    thread tr3(mstring_mult, std::ref(result), *this, matrix, second_max, third_max);
+    thread tr4(mstring_mult, std::ref(result), *this, matrix, third_max, fourth_max);
+    thread tr5(mstring_mult, std::ref(result), *this, matrix, fourth_max, fiveth_max);
+    thread tr6(mstring_mult, std::ref(result), *this, matrix, fiveth_max, sixth_max);
+    thread tr7(mstring_mult, std::ref(result), *this, matrix, sixth_max, seventh_max);
+    thread tr8(mstring_mult, std::ref(result), *this, matrix, seventh_max, eights_max);
 
-    for (int c1 = 0; c1 < this->i; c1++)
-    {
 
-        for (int c3 = 0; c3 < this->i; c3++)
-        {
-            thread tr(foo);
-            v.push_back(tr);
-            tr.detach();
-        }
-    }  
+    tr1.join();
+    tr2.join();
+    tr3.join();
+    tr4.join();
+    tr5.join();
+    tr6.join();
+    tr7.join();
+    tr8.join();
 
-    for (size_t i = 0; i < v.size(); i++)
-    {
-        v[i].join();
-    }
-    
     cout << "BoolMatrix BoolMatrix::operator*(BoolMatrix matrix) finished" << endl;
     return result;
 }

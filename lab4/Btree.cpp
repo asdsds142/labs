@@ -17,60 +17,65 @@ void tester(string num)
 template<class T>
 Btree<T>::Btree(T v)
 {
-    cout << "Btree::Btree(double v) started" << endl;
-    node n;
-    n.value = v;
-    this->root = &n;
-    cout << "Btree::Btree(double v) finished" << endl;
+    //cout << "Btree::Btree(double v) started" << endl;
+    node* n = new node();
+    n->value = v;
+    this->root = n;
+    //cout << "Btree::Btree(double v) finished" << endl;
+}
+template<class T>
+Btree<T>::Btree(Btree&& other)
+{
+    this->root = other.root;
+    other.root = nullptr;
 }
 
 template<class T>
 Btree<T>::Btree(vector<T> v)
 {
-    cout << "Btree::Btree(vector<double> v) started" << endl;
-    sort(&v);
+    //cout << "Btree::Btree(vector<double> v) started" << endl;
     int a = v.size()/2;
 
-    cout << "flag12" << endl;
-    node n;
-    n.value = v[a];
-    this->root = &n;
-    cout << "flag13" << endl;
+    /*for (int i = 0; i < v.size(); ++i)
+    {
+        cout << v[i] << " ";
+    }
+    cout << endl;
+    */
+    node* n = new node();
+    n->value = v[a];
+    this->root = n;
 
     for (int i = 0; i < v.size(); ++i)
     {
         if (i == a) continue;
         add(v[i]);            
     }
-    cout << "Btree::Btree(vector<double> v) finished" << endl;
+    //cout << "Btree::Btree(vector<double> v) finished" << endl;
 }
 
 
 template<class T>
 Btree<T>::Btree(string filename)
 {
-    cout << "Btree::Btree(string filename) started" << endl;
+    //cout << "Btree::Btree(string filename) started" << endl;
     ifstream fp{filename};
-    vector<double> v;
-    int a = 0;
+    if (!fp)
+        throw runtime_error("файл не открыт");
+    vector<T> v;
+    T a;
     while (fp >> a && a != EOF)
     {
         v.push_back(a);
     }
 
 
-    sort(&v);
-    for (int cntr = 0; cntr < v.size(); cntr++)
-    {
-        cout << v[cntr] << "";
-    }
+    //sort(&v);
     int numeral = v.size()/2;
 
-    cout << "flag12" << endl;
     node *n = new node;
     n->value = v[numeral];
     this->root = n;
-    cout << "flag13" << endl;
 
     for (int i = 0; i < v.size(); ++i)
     {
@@ -79,38 +84,44 @@ Btree<T>::Btree(string filename)
     }
 
 
-    cout << "Btree::Btree(string filename) finished" << endl;
+    //cout << "Btree::Btree(string filename) finished" << endl;
 }
 
 
 template<class T>
 void Btree<T>::add(T v)
 {
-    cout << "void Btree::add(double v) started" << endl;
+    //cout << "void Btree::add(double v) started" << endl;
     if (this->root)
+    {
         add(this->root, v);
+    }
     else 
     {
         node *a = new node;
         a->value = v;
         this->root = a;
     }
-    cout << "void Btree::add(double v) finished" << endl;
+   // cout << "void Btree::add(double v) finished" << endl;
 }
 
 template<class T>
 void Btree<T>::add(node* n, T v)
 {
-    cout << "void Btree::add(node* n, double v) started" << endl;
-    if (flag) //пока не буду дописывать возможно тут можно макросом переназначить больше меньше
+    //cout << "void Btree::add(node* n, double v) started" << endl;
+    if (1) //пока не буду дописывать возможно тут можно макросом переназначить больше меньше
     {
+        //cout << "value = " << v << " n->value = " << n->value << endl;
         if (v > n->value)
         {
-            if (n->right){ add(n->right, v);}
+            if (n->right)
+            { 
+                node* nodeptr = n->right;
+                add(nodeptr, v);
+            }
 
             else 
             {
-                cout << "addelseflag" << endl;
                 node *a = new node; //я добавил динамическое выделение памяти и оно магическим образом заработало
                 a->value = v; 
                 n->right = a;
@@ -123,7 +134,6 @@ void Btree<T>::add(node* n, T v)
 
             else 
             {
-                cout << "addelseflag2" << endl;
                 node *a = new node;
                 a->value = v;
                 n->left = a;
@@ -131,13 +141,13 @@ void Btree<T>::add(node* n, T v)
         }
     }
             
-    cout << "void Btree::add(node* n, double v) finished" << endl;
+    //cout << "void Btree::add(node* n, double v) finished" << endl;
 }
 
 template<class T>
 void Btree<T>::write_to_file(string filename, node* ptr)
 {
-    cout << "void Btree::write_to_file(string filename, node* ptr) started" << endl;
+    //cout << "void Btree::write_to_file(string filename, node* ptr) started" << endl;
     if (ptr->left)
         write_to_file(filename, ptr->left);
     ofstream fp{filename}; 
@@ -146,7 +156,7 @@ void Btree<T>::write_to_file(string filename, node* ptr)
     if (ptr->right)
         write_to_file(filename, ptr->right);   
 
-    cout << "void Btree::write_to_file(string filename, node* ptr) finished" << endl; 
+    //cout << "void Btree::write_to_file(string filename, node* ptr) finished" << endl; 
 }
 
 
@@ -155,43 +165,39 @@ void Btree<T>::write_to_file(string filename)
 {
     write_to_file(filename, this->root);
 }
-
+/*
 template<class T>
-void Btree<T>::sort(vector<T> *v)
+void Btree<T>::sort(vector<double> *v)
 {
-    cout << "void Btree::sort(vector<double> v) started" << endl;
+    //cout << "void Btree::sort(vector<double> v) started" << endl;
     int n = 1;
     int tmp;
-    if (flag)
+    while (n)
     {
-        while (n)
+        n = 0;
+        for (int i = 0; i < v->size(); i++)
         {
-            tester("sort1");
-            n = 0;
-            for (int i = 0; i < v->size(); i++)
+            //вот тут все работает нормально по крайней мере разок оно сделало и вывело норм массив
+            if (i+1 != v->size() && v->at(i) > v->at(i+1))
             {
-                //вот тут все работает нормально по крайней мере разок оно сделало и вывело норм массив
-                if (i+1 != v->size() && v->at(i) > v->at(i+1))
-                {
-                    cout << v->at(i) << " " << v->at(i+1) << endl;
-                    swap(v->at(i), v->at(i+1));
-                    n++;
-                }
+                cout << v->at(i) << " " << v->at(i+1) << endl;
+                swap(v->at(i), v->at(i+1));
+                n++;
             }
-        }       
-    }
+        }
+    }       
     for (int cntr = 0; cntr < v->size(); cntr++)
     {
         cout << v->at(cntr) << "";
     }
 
-    cout << "void Btree::sort(vector<double> v) finished" << endl;
-}
+    //cout << "void Btree::sort(vector<double> v) finished" << endl;
+}*/
 
 template<class T>
 bool Btree<T>::find(T value)
 {
-    cout << "bool Btree::find(double value) started" << endl;
+    //cout << "bool Btree::find(double value) started" << endl;
     if (value == root->value)
     {
         cout << "Значение найдено" << endl;
@@ -199,24 +205,23 @@ bool Btree<T>::find(T value)
     }
 
     bool result = 0;
-    if (value < root->value)
+    if (value < root->value && root->left)
     {
         result = find(value, root->left);
-        return result;
     }
 
-    if (value > root->value)
+    if (value > root->value && root->right)
     {
         result = find(value, root->right);
-        return result;
     }
-    cout << "bool Btree::find(double value) finished" << endl;
+    return result;
+    //cout << "bool Btree::find(double value) finished" << endl;
 }
 
 template<class T>
 bool Btree<T>::find(T value, node* ptr)
 {
-    cout << "bool Btree::find(double value, node* ptr) started" << endl;
+    //cout << "bool Btree::find(double value, node* ptr) started" << endl;
     if (value == ptr->value)
     {
         cout << "Значение найдено" << endl;
@@ -232,20 +237,19 @@ bool Btree<T>::find(T value, node* ptr)
             return result;
         }
         result = find(value, ptr->left);
-        return result;
     }
 
     if (value > root->value)
     {
         if (!ptr->right)
         {
-            cout << "Значение не найдено" << endl;
+            //cout << "Значение не найдено" << endl;
             return result;
         }
         result = find(value, ptr->right);
-        return result;
     }
-    cout << "bool Btree::find(double value, node* ptr) finished" << endl;
+    return result;
+    //cout << "bool Btree::find(double value, node* ptr) finished" << endl;
 }
 
 //можно давать ей пустой массив на вход и давать работать с ним ну потом на тестировании попробую
@@ -253,7 +257,7 @@ bool Btree<T>::find(T value, node* ptr)
 template<class T>
 vector<T> Btree<T>::get_sorted(bool flag)
 {
-    cout << "vector<double> Btree::get_sorted(bool flag) started" << endl;
+    //cout << "vector<double> Btree::get_sorted(bool flag) started" << endl;
     vector<T> result;
     
     if (flag)
@@ -286,49 +290,80 @@ vector<T> Btree<T>::get_sorted(bool flag)
         }
     }
 
-    cout << "vector<double> Btree::get_sorted(bool flag) finished" << endl;
+    //cout << "vector<double> Btree::get_sorted(bool flag) finished" << endl;
     return result;
 }
 
-//как то от иф элсов надобно бы перейти к нормальной программе то так цифор малавата получаетса помойму
+
 template<class T>
 void Btree<T>::get_sorted(bool flag, vector<T> *result, node* ptr)
 {
-    cout << "void Btree::get_sorted(bool flag, vector<double> result, node* ptr) started" << endl;
+    //cout << "void Btree::get_sorted(bool flag, vector<double> result, node* ptr) started" << endl;
     if (flag)
     {
-        tester(2);
-        cout << "value" << ptr->value << endl;
+        //cout << "value" << ptr->value << endl;
         if (ptr->left != nullptr)
         {
-            tester(3);
             get_sorted(flag, result, ptr->left);
         }
+
         result->push_back(ptr->value);
-        tester(4);
+
         if (ptr->right)
         {
-            tester(5);
             get_sorted(flag, result, ptr->right);
         }
     }
     else
     {
-        tester(1);
+
         if (ptr->right)
         {
-            cout << "flag12";
+            //cout << "flag12";
             get_sorted(flag, result, ptr->right);
         }
         result->push_back(ptr->value);
         if (ptr->left)
         {
-            cout << "flag11";
+            //cout << "flag11";
             get_sorted(flag, result, ptr->left);
         }
     }
-    cout << "void Btree::get_sorted(bool flag, vector<double> result, node* ptr) finished" << endl;
+    //cout << "void Btree::get_sorted(bool flag, vector<double> result, node* ptr) finished" << endl;
 }
 
+
 template<class T>
-Btree<T>::~Btree(){}
+T Btree<T>::get_rootvalue() {return this->root->value;}
+
+
+template<class T>
+void Btree<T>::show()
+{
+    cout << "функция-метод Btree::show() показываем дерево начала свою работу: " << endl; 
+    if (this->root != nullptr)
+    {
+        show(this->root);
+        cout << endl;
+    }
+}
+
+
+template<class T>
+void Btree<T>::show(node* nodeptr)
+{
+    if (nodeptr == nullptr)
+    {
+        throw runtime_error("Btree::show(node*) передан nullptr");
+    }
+
+    if (nodeptr->left)
+    {
+        show(nodeptr->left);
+    }
+    cout << nodeptr->value << " ";
+    if (nodeptr->right)
+    {
+        show(nodeptr->right);
+    }
+}

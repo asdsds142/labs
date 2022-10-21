@@ -127,6 +127,7 @@ void RB_tree::node::case_a() //случай: красная проблема, б
     {
         this->parent->parent->left_child = this->parent->right_child;
         this->parent->right_child = this->parent->parent;
+        //тут еще перекраску забыл 
     }
     
     else

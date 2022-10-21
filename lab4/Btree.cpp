@@ -1,25 +1,13 @@
 #include "header.h"
 
-
-void tester(int num)
-{
-    string asd;
-    asd = to_string(num);
-    cout << "flag" << num << endl;
-}
-
-
-void tester(string num)
-{
-    cout << "flag" << num << endl;
-}
+template<class T>
+Btree<T>::node::node(T val) : value(val){}
 
 template<class T>
 Btree<T>::Btree(T v)
 {
     //cout << "Btree::Btree(double v) started" << endl;
-    node* n = new node();
-    n->value = v;
+    node* n = new node(v);
     this->root = n;
     //cout << "Btree::Btree(double v) finished" << endl;
 }
@@ -42,8 +30,7 @@ Btree<T>::Btree(vector<T> v)
     }
     cout << endl;
     */
-    node* n = new node();
-    n->value = v[a];
+    node* n = new node(v[a]);
     this->root = n;
 
     for (int i = 0; i < v.size(); ++i)
@@ -73,8 +60,7 @@ Btree<T>::Btree(string filename)
     //sort(&v);
     int numeral = v.size()/2;
 
-    node *n = new node;
-    n->value = v[numeral];
+    node *n = new node(v[numeral]);
     this->root = n;
 
     for (int i = 0; i < v.size(); ++i)
@@ -98,8 +84,7 @@ void Btree<T>::add(T v)
     }
     else 
     {
-        node *a = new node;
-        a->value = v;
+        node *a = new node(v);
         this->root = a;
     }
    // cout << "void Btree::add(double v) finished" << endl;
@@ -122,8 +107,7 @@ void Btree<T>::add(node* n, T v)
 
             else 
             {
-                node *a = new node; //я добавил динамическое выделение памяти и оно магическим образом заработало
-                a->value = v; 
+                node *a = new node(v); //я добавил динамическое выделение памяти и оно магическим образом заработало
                 n->right = a;
             }
         }
@@ -134,8 +118,7 @@ void Btree<T>::add(node* n, T v)
 
             else 
             {
-                node *a = new node;
-                a->value = v;
+                node *a = new node(v);
                 n->left = a;
             }
         }

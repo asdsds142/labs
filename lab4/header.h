@@ -20,7 +20,13 @@ template <class T>
 class Btree
 {
 private:
-    struct node { T value; node* left = nullptr; node* right = nullptr;};
+    struct node 
+    { 
+        T value; 
+        node* left = nullptr; 
+        node* right = nullptr;
+        node(T val);
+    };
     node* root = nullptr;
 
     void add(node*, T);
@@ -47,4 +53,5 @@ public:
 
 
 };
+
 

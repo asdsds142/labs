@@ -14,18 +14,22 @@ void tester(string num)
     cout << "flag" << num << endl;
 }*/
 
+//конструктор ноды
+Btree::node::node(double val) : value(val){}
+
+
 //конструктор
 Btree::Btree(double v)
 {
+    time_checker ch{"Btree"};
     //cout << "Btree::Btree(double v) started" << endl;
-    node* n = new node();
-    n->value = v;
+    node* n = new node(v);
     this->root = n;
     //cout << "Btree::Btree(double v) finished" << endl;
 }
 
 
-//конструктор перемешения получающий на вход rvalue ссылку на другое дерево
+//конструктор перемешения 
 Btree::Btree(Btree&& other)
 {
     this->root = other.root;
@@ -35,6 +39,7 @@ Btree::Btree(Btree&& other)
 //конструктар
 Btree::Btree(vector<double> v)
 {
+    time_checker ch{"Btree(vector)"};
     //cout << "Btree::Btree(vector<double> v) started" << endl;
     int a = v.size()/2;
 
@@ -44,8 +49,7 @@ Btree::Btree(vector<double> v)
     }
     cout << endl;
     */
-    node* n = new node();
-    n->value = v[a];
+    node* n = new node(v[a]);
     this->root = n;
 
     for (int i = 0; i < v.size(); ++i)
@@ -79,8 +83,7 @@ Btree::Btree(string filename)
     }
     int numeral = v.size()/2;
 
-    node *n = new node;
-    n->value = v[numeral];
+    node *n = new node(v[numeral]);
     this->root = n;
 
     for (int i = 0; i < v.size(); ++i)
@@ -97,6 +100,7 @@ Btree::Btree(string filename)
 //функция добавляющая ноду с значением v в дерево
 void Btree::add(double v)
 {
+
     //cout << "void Btree::add(double v) started" << endl;
     if (this->root)
     {
@@ -104,8 +108,7 @@ void Btree::add(double v)
     }
     else 
     {
-        node *a = new node;
-        a->value = v;
+        node *a = new node(v);
         this->root = a;
     }
    // cout << "void Btree::add(double v) finished" << endl;
@@ -115,21 +118,14 @@ void Btree::add(double v)
 void Btree::add(node* n, double v)
 {
     //cout << "void Btree::add(node* n, double v) started" << endl;
-    if (1) //пока не буду дописывать возможно тут можно макросом переназначить больше меньше
-    {
         //cout << "value = " << v << " n->value = " << n->value << endl;
         if (v > n->value)
         {
-            if (n->right)
-            { 
-                node* nodeptr = n->right;
-                add(nodeptr, v);
-            }
+            if (n->right){ add(n->right, v);}
 
             else 
             {
-                node *a = new node; //я добавил динамическое выделение памяти и оно магическим образом заработало
-                a->value = v; 
+                node *a = new node(v); //я добавил динамическое выделение памяти и оно магическим образом заработало
                 n->right = a;
             }
         }
@@ -140,13 +136,10 @@ void Btree::add(node* n, double v)
 
             else 
             {
-                node *a = new node;
-                a->value = v;
+                node *a = new node(v);
                 n->left = a;
             }
-        }
-    }
-            
+        }    
     //cout << "void Btree::add(node* n, double v) finished" << endl;
 }
 

@@ -5,6 +5,8 @@
 #include <fstream>
 #include <vector>
 #include <chrono>
+#include <thread>
+#include "time_check.h"
 
 
 using namespace std;
@@ -21,7 +23,13 @@ using namespace std;
 class Btree
 {
 private:
-    struct node { double value; node* left = nullptr; node* right = nullptr;};
+    struct node 
+    { 
+        double value; 
+        node* left = nullptr; 
+        node* right = nullptr;
+        node(double val);
+    };
     node* root = nullptr;
 
     void add(node*, double);
@@ -36,6 +44,7 @@ public:
     Btree(double);
     Btree(string); //работа с файлами
     Btree(Btree&&);
+    Btree(Btree&) = default;
 
     void add(double);
     bool find(double);

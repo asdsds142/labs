@@ -6,9 +6,9 @@ int main()
 {
     time_checker main_checker {"main"};
 
-    Matrix a{521};
-    Matrix b{521};
-    Matrix c{521};
+    Matrix a{3521};
+    Matrix b{3521};
+    Matrix c{3521};
 
     c = a*b;
 

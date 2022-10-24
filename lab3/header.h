@@ -15,7 +15,6 @@ using namespace std;
 
 
 
-
 /*14. Построить класс для работы с бинарным деревом, узлы которого содержат действительные числа. 
   Создать дерево для заданной последовательности чисел. Используя его, упорядочить последовательность по возрастанию, убыванию.*/
 
@@ -29,6 +28,7 @@ private:
         node* left = nullptr; 
         node* right = nullptr;
         node(double val);
+        ~node();
     };
     node* root = nullptr;
 
@@ -38,6 +38,7 @@ private:
     void sort(vector<double>*);
     void get_sorted(bool flg, vector<double> *result, node* ptr);
     void show(node*);
+    void cycle_add(double value);
 
 public:
     Btree(vector<double>);
@@ -45,6 +46,8 @@ public:
     Btree(string); //работа с файлами
     Btree(Btree&&);
     Btree(Btree&) = default;
+
+    ~Btree();
 
     void add(double);
     bool find(double);

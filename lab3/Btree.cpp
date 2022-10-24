@@ -17,6 +17,28 @@ void tester(string num)
 //конструктор ноды
 Btree::node::node(double val) : value(val){}
 
+Btree::node::~node()
+{
+    if (this->left)
+    {
+        delete this->left;
+    }
+    if (this->right)
+    {
+        delete this->right;
+    }
+}
+
+Btree::~Btree()
+{
+    time_checker tch{"~Btree"};
+    if (this->root)
+    {
+        delete this->root;
+    }
+}
+
+
 
 //конструктор
 Btree::Btree(double v)
@@ -104,7 +126,8 @@ void Btree::add(double v)
     //cout << "void Btree::add(double v) started" << endl;
     if (this->root)
     {
-        add(this->root, v);
+        //add(this->root, v);
+        cycle_add(v); //работает немного быстрее
     }
     else 
     {
@@ -114,6 +137,38 @@ void Btree::add(double v)
    // cout << "void Btree::add(double v) finished" << endl;
 }
 
+void Btree::cycle_add(double val)
+{
+    node* current_node = this->root;
+    while(1)
+    {
+        if (val > current_node->value)
+        {
+            if (current_node->right)
+            {
+                current_node = current_node->right;
+            }
+            else
+            {
+                current_node->right = new node(val);
+                break;
+            }
+        }
+        else
+        {
+            if (current_node->left)
+            {
+                current_node = current_node->left;
+            }
+            else
+            {
+                current_node->left = new node(val);
+                break;
+            }
+        }
+    }
+}
+
 
 void Btree::add(node* n, double v)
 {
@@ -121,7 +176,7 @@ void Btree::add(node* n, double v)
         //cout << "value = " << v << " n->value = " << n->value << endl;
         if (v > n->value)
         {
-            if (n->right){ add(n->right, v);}
+            if (n->right){ add(n->right, v); }
 
             else 
             {
@@ -143,7 +198,7 @@ void Btree::add(node* n, double v)
     //cout << "void Btree::add(node* n, double v) finished" << endl;
 }
 
-//функция записывающая дерево в файл, правильность не проверялась
+//функция записывающая дерево в файл, правильность не проверялась (уже вижу что не совсем пральна)
 void Btree::write_to_file(string filename, node* ptr)
 {
     //cout << "void Btree::write_to_file(string filename, node* ptr) started" << endl;

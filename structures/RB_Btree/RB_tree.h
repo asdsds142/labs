@@ -34,4 +34,6 @@ public:
     RB_tree();
 
     void add_element(int);
+    void find(int);
+    
 };

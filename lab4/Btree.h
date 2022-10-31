@@ -1,7 +1,4 @@
 //Btree.h
-//TODO Btree<T>::Btree(const Btree& other
-//разобраться в спецификаторах const и других и тоже проставить
-//протестировать правильность работы копирования и присваивания
 #pragma once
 #include "Btree_class_description.h"
 
@@ -33,6 +30,7 @@ Btree<T>::~Btree()
     }
 }
 
+//конструктор копирования ноды
 template<class T>
 Btree<T>::node::node(const node& other)
 {
@@ -46,7 +44,8 @@ Btree<T>::node::node(const node& other)
         this->right = new node(*other.right);
     }
 }
-//в верхней и нижней штуках я не уверен в правильности написания, надо протестировать
+
+//оператор присваивания ноды
 template<class T>
 class Btree<T>::node& Btree<T>::node::operator=(const node& other) //надо уточнить почему тут такой синтаксис и без класс/тайпнейм ругается
 {
@@ -66,6 +65,13 @@ template<class T>
 Btree<T>::Btree(T val)
 {
     this->root_ = new node(val);
+}
+
+//оператор присваивания дерева
+template<class T>
+Btree<T>& Btree<T>::operator=(const Btree& other)
+{
+    this->root_ = other.root_;
 }
 
 //конструктор перемещения
@@ -93,7 +99,7 @@ Btree<T>::Btree(vector<T> v)
 
 }
 
-//конструктор копирования TODO
+//конструктор копирования
 template<class T>
 Btree<T>::Btree(const Btree& other)
 {
@@ -171,7 +177,7 @@ void Btree<T>::recursive_add(node* node_p, T val)
 
 //поиск элемента с заданным значением, циклический
 template<class T>
-bool Btree<T>::find(T val)
+bool Btree<T>::find(T val) const
 {
     if (!this->root_)
     {
@@ -295,7 +301,7 @@ T Btree<T>::get_rootvalue() {return this->root_->value;}
 
 //рекурсивный вывод в виде последовательности чисел
 template<class T>
-void Btree<T>::show()
+void Btree<T>::show() const
 {
     if (this->root_ != nullptr)
     {
@@ -304,9 +310,9 @@ void Btree<T>::show()
     }
 }
 
-
+//дополнительная функция для рекурсивного вывода
 template<class T>
-void Btree<T>::show(node* nodeptr)
+void Btree<T>::show(node* nodeptr) const
 {
     if (nodeptr == nullptr)
     {
@@ -317,7 +323,7 @@ void Btree<T>::show(node* nodeptr)
     {
         show(nodeptr->left);
     }
-    cout << nodeptr->value << " ";
+    cout << nodeptr->value << " " << &nodeptr->value <<  " ";
     if (nodeptr->right)
     {
         show(nodeptr->right);

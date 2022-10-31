@@ -4,17 +4,21 @@
 int main()
 {
     
-    vector<int> randomized;
-    randomized.reserve(7);
-    for (int i = 0; i < 7; i++) 
+    vector<int> buf;
+    buf.reserve(20);
+
+    for (int i = 0; i < 20; ++i) 
     {
-        randomized.push_back(i); 
+        buf.push_back(i); 
     }
     
-    Btree<int> tr {randomized}; 
-    Btree<int> tr2 {tr};
+    Btree<int> tr {buf}; 
+    auto tr2 = tr;
+
+
 
     tr.show();
     tr2.show();
 
+    
 }

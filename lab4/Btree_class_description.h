@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include <string>
-#include <fstream>
 #include <vector>
 
 
@@ -30,11 +29,9 @@ private:
     node* root_ = nullptr;
 
     void recursive_add(node*, T);
-    bool find(T, node*);
-    void sort(vector<T>*);
+    bool find(T, node*)const;
     void get_sorted(bool flg, vector<T> *result, node* ptr);
-    void show(node*);
-    void copy(node*, node*);
+    void show(node*) const;
     void cycle_add(T);
 
 public:
@@ -46,10 +43,9 @@ public:
     ~Btree();
 
     void add(T);
-    bool find(T);
+    bool find(T) const;
     T get_rootvalue();
-    void add_from_file(string);
-    void show();
+    void show() const;
 
     vector<T> get_sorted(bool flag);
     Btree& operator=(const Btree&);

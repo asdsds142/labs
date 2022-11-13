@@ -1,14 +1,13 @@
 //main.cpp
 #include "Dictionary.h"
-
-//для sleep();
 #include <unistd.h>
+
 
 //Иммитация бурной деятельности
 void data_analysis()
 {
     cout << "Analysing data";
-    for (size_t i = 0; i < 4; ++i)
+    for (size_t i = 0; i < 3; ++i)
     {
         cout << '.';
         flush(cout); //противостоим буферизации
@@ -33,29 +32,62 @@ void data_adder()
 
 int main()
 {
+    system("clear");
     dDictionary first_dict;
 
-    for (size_t i = 0; i < 11; ++i)
+    while (1) 
     {
-        string word = "word" + to_string(i);
-        string translation = "translation" + to_string(i);
+        int tmp;
+        cout << "Введите опцию\n1. Добавить элемент\n2. Вывести дату последнего изменения \n3. Показать словарь\n4. Выход из программы" << endl;
+        cout << "--------------------------------------------------------------------------" << endl;
+        cin >> tmp;
 
-        first_dict.add_pair(word, translation);
+        if (tmp == 4)
+        {
+            system("clear");
+            break;
+        }
+
+        else if (tmp == 1)
+        {
+            string word;
+            string translation;
+
+            system("clear");
+            cout << "Введите слово" << endl;
+            cin >> word;
+            data_analysis();
+            system("clear");
+            cout << "Введите перевод" << endl;
+            cin >> translation;
+            data_analysis();
+
+            system("clear");
+            data_adder();
+            first_dict.add_pair(word, translation);
+
+            cout << "Введено успешно" << endl << endl;
+        }
+
+        else if (tmp == 2)
+        {
+            system("clear");
+            first_dict.get_time();
+        }
+
+        else if(tmp == 3)
+        {
+            system("clear");
+            first_dict.show();
+        }
+
+        else 
+        {
+            system("clear");
+            cout << "Ошибка ввода" << endl;
+            continue;
+        }
+
     }
-    
-    string tmp_word;
-    string tmp_translation;
 
-    cout << "Input word " << endl;
-    cin >> tmp_word;
-    data_analysis();
-    cout << "Input translation" << endl;
-    cin >> tmp_translation;
-    data_analysis();
-
-    first_dict.add_pair(tmp_word, tmp_translation);
-    data_adder();
-
-
-    first_dict.get_time();
 }

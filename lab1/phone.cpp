@@ -1,56 +1,34 @@
 #include "header.h"
 
+
+
+
+//конструктор ввода с клавиатуры
 Phone::Phone()
 {
-    string tmp1;
-    int tmp2 = -1;
-    int c1 = 0;
-
-    cout << "Phone constructor started" << endl;
-    cout << "Введите фамилию" << endl;
-    cin >> this->surname;
-    cout << "Введите имя" << endl;
-    cin >> this->name;
-    cout << "Введите отчество" << endl;
-    cin >> this->father_name;
-
-    cin.ignore(2221, '\n');
-    string tmpbuf;
-    cout << "Введите адрес" << endl;
-    getline(cin, tmpbuf);
-    this->adress = tmpbuf;
-
-    cout << "Введите номер" << endl;
-    cin >> this->number;
-    cout << "Введите время внутригородних разговоров" << endl;
-    cin >> this->incity_time;
-    cout << "Введите время междугородних разговоров" << endl;
-    cin >> this->intercity_time;
+    try_input(cin, this->surname, "Введите фамилию\n");
+    try_input(cin, this->name, "Введите имя\n");
+    try_input(cin, this->father_name, "Введите отчество\n");
+    try_getline(cin, this->adress, "Введите адрес\n");
+    try_input(cin, this->number, "Введите номер\n");
+    try_input(cin, this->incity_time, "Введите время внутригородних разговоров\n");
+    try_input(cin, this->intercity_time, "Введите время междугородних разговоров\n");
 }
 
 
-Phone::Phone(string filename)
-{
-    ifstream fp;
-    getline(fp, this->surname);
-    getline(fp, this->name);
-    getline(fp, this->father_name);
-    getline(fp, this->adress);
+Phone::Phone(ifstream& file_stream)
+{ 
+    try_getline(file_stream, this->surname);
+    try_getline(file_stream, this->name);
+    try_getline(file_stream, this->father_name);
+    try_getline(file_stream, this->adress);
 
-    fp >> this->number >> this->incity_time >> this->intercity_time;
+    file_stream >> this->number >> this->incity_time >> this->intercity_time;
 }
 
 
-Phone::Phone(string a, string b, string c, string d, long e, long f, long h)
-{
-    this->surname = a;
-    this->name = b;
-    this->father_name = c;
-    this->adress = d;
-    this->number = e;
-    this->incity_time = f;
-    this->intercity_time = h;
-}
+Phone::Phone(string a, string b, string c, string d, long e, long f, long h) : 
+surname(a), name(b), father_name(c), adress(d), number(e), incity_time(f), intercity_time(h) {}
 
 
 string Phone::get_adress(){return this->adress;}
@@ -99,11 +77,10 @@ void Phone::show()
 
 }
 
-void Phone::to_file(string filename)
+void Phone::to_file(ofstream& file_stream)
 {
-    ofstream fp{filename};
 
-    fp << surname << endl << name << endl << father_name << endl << adress << endl << number << endl << incity_time << endl << intercity_time << endl;
+    file_stream << surname << endl << name << endl << father_name << endl << adress << endl << number << endl << incity_time << endl << intercity_time << endl;
     
 }
 
@@ -111,7 +88,3 @@ void Phone::add_incity_call_time(long a) {this->incity_time += a;}
 
 void Phone::add_intercity_call_time(long a) {this->intercity_time += a;}
 
-Phone::~Phone()
-{
-
-}

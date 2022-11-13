@@ -20,8 +20,7 @@ int main()
     A.to_file(filename1);
     B.to_file(filename2);
 
-
-
+    
     C = A&B;
     C.to_file(filename3);
     cout << C;
@@ -35,7 +34,8 @@ int main()
     C.lexicographic_sort();
     cout << C;
 
-
+    string a;
+    
     cout << "---------------------------------------------" << endl;
     BoolMatrix D{filename3};
     D = A*B;

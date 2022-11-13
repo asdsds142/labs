@@ -4,12 +4,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <map>
 #include <ctime>
 #include <chrono>
 
 
 using namespace std;
+
 
 //base class
 class Dictionary
@@ -21,6 +21,7 @@ protected:
 public:
     Dictionary() = default;
     virtual void show();
+    virtual void add_pair(string, string);
 };
 
 
@@ -28,11 +29,12 @@ public:
 class dDictionary : public Dictionary
 {
 protected:
-    std::chrono::_V2::system_clock::time_point time_stomp_ = chrono::system_clock::now();
-    string last_change_time_ = "Dictionary wasn't changed.";
+    using time_point = std::chrono::_V2::system_clock::time_point;
+    time_point time_stomp_ = chrono::system_clock::now();
+    string last_change_time_ = "Dictionary wasn't changed.\n";
 
 public:
-    dDictionary() = default;
+    dDictionary();
 
     void add_pair(string, string);
     void get_time();

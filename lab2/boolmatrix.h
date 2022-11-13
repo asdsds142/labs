@@ -39,11 +39,12 @@ public:
     BoolMatrix operator|(BoolMatrix);
     BoolMatrix operator/(BoolMatrix);
     void operator=(BoolMatrix);
+    friend ostream& operator<<(ostream&, BoolMatrix);
 	
 };
 
 
 //может тут както френд надо юзать но я еще не знаю френды
-ostream& operator<<(ostream&, BoolMatrix);
+
 
 

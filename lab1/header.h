@@ -5,7 +5,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
-#include <cmath>
+#include "tools.h"
 
 using namespace std;
 
@@ -19,20 +19,21 @@ using namespace std;
 class Phone
 {
 private:
-    string name;
+    
     string surname;
+    string name;
     string father_name;
     string adress;
     long number;
-    long intercity_time;
     long incity_time;
+    long intercity_time;
 
 
 public:
     Phone();
-    Phone(string);
+    Phone(ifstream&);
     Phone(string, string, string, string, long, long, long);
-    ~Phone();
+    ~Phone() = default;
 
     void set_name(string);
     void set_surname(string);
@@ -50,9 +51,11 @@ public:
     long get_intercity_time();
     long get_incity_time();
 
-    void to_file(string);
+    void to_file(ofstream&);
     void show();
     void add_intercity_call_time(long);
     void add_incity_call_time(long);
 
 };
+
+

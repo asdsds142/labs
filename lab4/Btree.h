@@ -49,16 +49,13 @@ Btree<T>::node::node(const node& other)
 template<class T>
 class Btree<T>::node& Btree<T>::node::operator=(const node& other) //надо уточнить почему тут такой синтаксис и без класс/тайпнейм ругается
 {
-    this->value = other.value;
-    if (other.left)
+    if (this == other)
     {
-        this->left = new node(*other.left);
+        return *this;
     }
-    if (other.right)
-    {
-        this->right = new node(*other.right);
-    }
-}
+    delete this; //узнал что надо удалять сначала то что было
+    this = new node(other); //чутка подредачил но не проверял вотето вот
+} 
 
 //конструктор из 1 элемента, по хорошему заменить на ... конструктор из списка элементов но то TODO
 template<class T>
@@ -71,7 +68,13 @@ Btree<T>::Btree(T val)
 template<class T>
 Btree<T>& Btree<T>::operator=(const Btree& other)
 {
-    this->root_ = other.root_;
+    if (this == other)
+    {
+        return *this;
+    }
+
+    delete this->root_; //тут тоже подредачил удаляя старые штуки
+    this->root_ = new node(other.root_);
 }
 
 //конструктор перемещения

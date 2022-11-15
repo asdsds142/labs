@@ -1,27 +1,25 @@
 #include "header.h"
 
 
-
-
 //конструктор ввода с клавиатуры
 Phone::Phone()
 {
-    try_input(cin, this->surname, "Введите фамилию\n");
-    try_input(cin, this->name, "Введите имя\n");
-    try_input(cin, this->father_name, "Введите отчество\n");
-    try_getline(cin, this->adress, "Введите адрес\n");
-    try_input(cin, this->number, "Введите номер\n");
-    try_input(cin, this->incity_time, "Введите время внутригородних разговоров\n");
-    try_input(cin, this->intercity_time, "Введите время междугородних разговоров\n");
+    Tools::try_input(cin, this->surname, "Введите фамилию\n");
+    Tools::try_input(cin, this->name, "Введите имя\n");
+    Tools::try_input(cin, this->father_name, "Введите отчество\n");
+    Tools::try_getline(cin, this->adress, "Введите адрес\n");
+    Tools::try_input(cin, this->number, "Введите номер\n");
+    Tools::try_input(cin, this->incity_time, "Введите время внутригородних разговоров\n");
+    Tools::try_input(cin, this->intercity_time, "Введите время междугородних разговоров\n");
 }
 
 
 Phone::Phone(ifstream& file_stream)
 { 
-    try_getline(file_stream, this->surname);
-    try_getline(file_stream, this->name);
-    try_getline(file_stream, this->father_name);
-    try_getline(file_stream, this->adress);
+    Tools::try_getline(file_stream, this->surname);
+    Tools::try_getline(file_stream, this->name);
+    Tools::try_getline(file_stream, this->father_name);
+    Tools::try_getline(file_stream, this->adress);
 
     file_stream >> this->number >> this->incity_time >> this->intercity_time;
 }

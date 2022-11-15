@@ -72,7 +72,5 @@ int main()
             Adresses[i].show();
     }
 
-
-
-
+    
 }

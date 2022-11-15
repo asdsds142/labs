@@ -5,7 +5,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
-#include "tools.h"
+#include "../tools/tools.h"
 
 using namespace std;
 
@@ -14,7 +14,6 @@ using namespace std;
 а) сведения об абонентах, время внутригородских разговоров которых превышает заданное;
 б) сведения об абонентах, воспользовавшихся междугородней связью;
 */
-
 
 class Phone
 {

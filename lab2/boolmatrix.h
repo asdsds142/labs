@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cmath>
 #include <vector>
+#include "../tools/tools.h"
 
 
 
@@ -14,37 +15,37 @@ using namespace std;
 class BoolMatrix
 {
 private:
-	short i, j;
+	int64_t i, j;
     bool **p;
 
 
 public:
-	BoolMatrix(short, short);
-	BoolMatrix(string);														
+	BoolMatrix(int64_t, int64_t);
+	BoolMatrix(ifstream&);														
     BoolMatrix(const BoolMatrix&);
-    BoolMatrix(short, short, int);
+    BoolMatrix(int64_t, int64_t, int64_t);
+    explicit BoolMatrix(int64_t);
 
 	~BoolMatrix();
-	void to_file(string);
+	void to_file(ofstream&);
 	void show();
 	void inverse();
-    int count_ones();
+    int64_t count_ones();
     void lexicographic_sort();
-    short get_i();
-    short get_j();
-    bool get_value(short, short);
+    int64_t get_i();
+    int64_t get_j();
+    bool get_value(int64_t, int64_t);
 
-	BoolMatrix operator*(BoolMatrix);
-    BoolMatrix operator&(BoolMatrix);
-    BoolMatrix operator|(BoolMatrix);
-    BoolMatrix operator/(BoolMatrix);
-    void operator=(BoolMatrix);
+	BoolMatrix operator*(const BoolMatrix&);
+    BoolMatrix operator&(const BoolMatrix&);
+    BoolMatrix operator|(const BoolMatrix&);
+    BoolMatrix operator/(const BoolMatrix&);
+    BoolMatrix& operator=(const BoolMatrix&);
     friend ostream& operator<<(ostream&, BoolMatrix);
+    friend istream& operator>>(istream&, BoolMatrix);
 	
 };
 
-
-//может тут както френд надо юзать но я еще не знаю френды
 
 
 

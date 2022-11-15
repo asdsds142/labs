@@ -1,45 +1,66 @@
 #include "boolmatrix.h"
 
+void tester()
+{
+    static int i = 0;
+    cout << i << endl;
+    i++;
+}
 
 int main()
 {
 
-    string filename1 = "matrix1";
-    string filename2 = "matrix2";
-    string filename3 = "matrix3";
+
+    ifstream first_filestream {"matrix1"};
+    ifstream second_filestream {"matrix2"};
+    ifstream third_filestream {"matrix3"};
 
 
-    BoolMatrix A{filename1};
-    BoolMatrix B{filename2};
-    BoolMatrix C{filename3};
+    BoolMatrix A{first_filestream};
+    BoolMatrix B{second_filestream};
+    BoolMatrix C{third_filestream};
 
-
+        
     A.show();
     B.show();
-
-    A.to_file(filename1);
-    B.to_file(filename2);
-
+    C.show();
     
     C = A&B;
-    C.to_file(filename3);
-    cout << C;
+    tester(); 
+    C.show(); //тута ломается
+    tester();
+    
 
     C.lexicographic_sort();
+    tester();
     cout << C;
-    
+    tester();
+        
     C.inverse();
+    tester();
     cout << C;
+    tester();
 
     C.lexicographic_sort();
+    tester();
     cout << C;
-
-    string a;
-    
+    tester();
+        
     cout << "---------------------------------------------" << endl;
-    BoolMatrix D{filename3};
-    D = A*B;
-    cout << D;
+
+    first_filestream.close();
+    second_filestream.close();
+    third_filestream.close();
+
+    ofstream first_ofilestream {"matrix1"};
+    ofstream second_ofilestream {"matrix2"};
+    ofstream third_ofilestream {"matrix3"};
+
+    A.to_file(first_ofilestream);
+    B.to_file(second_ofilestream);
+    C.to_file(third_ofilestream);
+
+    
 
     return 0;
 }

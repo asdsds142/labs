@@ -8,7 +8,7 @@ int main()
     try
     {
         auto m_second = m_first * m_first;
-        cout << m_second;
+        m_second.show();
         m_second += m_second;
         m_second = m_first;
         cout << m_second << m_first;
@@ -24,7 +24,7 @@ int main()
         m_third *= 26;
         cout << m_third;
         m_third = -m_third;
-        cout << m_third;
+        m_third.show();
     }
     catch(const std::exception& e)
     {

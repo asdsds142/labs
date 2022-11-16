@@ -2,13 +2,14 @@
 #include "Matrix_class_description.h"
 
 template<class T>
-uint64_t Matrix<T>::matrix_id_ = 0;
+uint64_t Matrix<T>::matrix_id_ = 1;
 
 //конструктор вводящий матрицу из потока input_stream
 template<class T>
-Matrix<T>::Matrix(istream& input_stream)
+Matrix<T>::Matrix(istream& input_stream): name_("matrix" + to_string(matrix_id_))
 {
-    input_stream >> string_number_ >> column_number_;
+    matrix_id_++;
+    input_stream  >> string_number_ >> column_number_;
 
     this->body_= new T*[string_number_];
     for (size_t i = 0; i < string_number_; ++i)
@@ -29,8 +30,9 @@ Matrix<T>::Matrix(istream& input_stream)
 //конструктор создающий матрицу размеров i, j, заполняющий ее значениями init_value, по умолчанию 0
 template<class T>
 Matrix<T>::Matrix(uint64_t string_number, uint64_t column_number, T init_value): 
-string_number_(string_number), column_number_(column_number), body_(new T*[string_number_]) //уточнить
+name_("matrix" + to_string(matrix_id_)), string_number_(string_number), column_number_(column_number), body_(new T*[string_number_]) //уточнить
 {
+    matrix_id_++;
     for (size_t i = 0; i < string_number_; ++i)
     {
         this->body_[i] = new T[column_number_];
@@ -45,10 +47,12 @@ string_number_(string_number), column_number_(column_number), body_(new T*[strin
     }
 }
 
+//конструктор копирования
 template<class T>
 Matrix<T>::Matrix(const Matrix<T>& other): 
-string_number_(other.string_number_), column_number_(other.column_number_), body_(new T*[string_number_])
+name_("matrix" + to_string(matrix_id_)), string_number_(other.string_number_), column_number_(other.column_number_), body_(new T*[string_number_])
 {
+    matrix_id_++;
     static int64_t counter = 0;
     cout << "copy" << counter << endl;
     counter++;
@@ -62,7 +66,6 @@ string_number_(other.string_number_), column_number_(other.column_number_), body
     {
         for (size_t j = 0; j < other.column_number_; ++j)
         {
-            cout << "b" << ' ' << other.body_[i][j] << endl;
             this->body_[i][j] = other.body_[i][j];
         }
 
@@ -99,6 +102,7 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T>& other)
     return *this;
 }
 
+//деструктор
 template<class T>
 Matrix<T>::~Matrix()
 {
@@ -114,6 +118,7 @@ Matrix<T>::~Matrix()
 template<class T>
 void Matrix<T>::show() const
 {
+    cout << this->name_ << '\n';
     for (size_t i = 0; i < this->string_number_; ++i)
     {
         cout << '\n';
@@ -130,13 +135,13 @@ template<class T>
 T Matrix<T>::get_value(uint64_t i, uint64_t j) const
 {return this->body_[i][j]; }
 
-
+//унарный минус
 template<class T>
 Matrix<T> Matrix<T>::operator-() const
 {
-    cout << "un- init" << endl;
-    Matrix return_value = Matrix(*this);
-    cout << "un- copy finished";
+
+    auto return_value = Matrix<T>(*this);
+
     for (size_t i = 0; i < return_value.string_number_; ++i)
     {
         for (size_t j = 0; j < return_value.column_number_; ++j)
@@ -156,7 +161,7 @@ Matrix<T>& Matrix<T>::operator*=(const Matrix<T>& other)
         throw std::runtime_error("matrix multiplication wrong sizings");
     }
 
-    Matrix<T> return_matrix = Matrix<T>(this->string_number_, other.column_number_);
+    auto return_matrix = Matrix<T>(this->string_number_, other.column_number_);
 
     for (size_t i = 0; i < this->string_number_; ++i)
     {
@@ -179,7 +184,7 @@ Matrix<T>& Matrix<T>::operator*=(const Matrix<T>& other)
 template<class T>
 Matrix<T> Matrix<T>::operator*(const Matrix<T>& other) const
 {
-    Matrix<T> return_matrix = Matrix<T>(*this);
+    auto return_matrix = Matrix<T>(*this);
     return_matrix *= other;
     return return_matrix;
 } 
@@ -204,28 +209,48 @@ Matrix<T>& Matrix<T>::operator+=(const Matrix<T>& other)
     return *this;
 }
 
+
+//минусравно, можно было реализовать через унарный минус сэкономив строчки кода 
+//но это нужно лишний раз перезаписывать все данные в штуке + создавать копию, а зачем
 template<class T>
 Matrix<T>& Matrix<T>::operator-=(const Matrix<T>& other)
 {
-    return *this += -other;
+    if (this->string_number_ != other.string_number_ or this->column_number_ != other.column_number_)
+    {
+        throw std::runtime_error("matrix multiplication wrong sizings");
+    }
+
+    for (size_t i = 0; i < this->string_number_; ++i)
+    {
+        for (size_t j = 0; j < this->column_number_; ++j)
+        {
+            this->body_[i][j] -= other.body_[i][j];
+        }     
+    }
+
+    return *this;
 }
 
 template<class T>
 Matrix<T> Matrix<T>::operator+(const Matrix<T>& other) const
 {
 
-    Matrix return_matrix = *this;
+    auto return_matrix = *this;
     return_matrix += other;
     return return_matrix;
 
 }
 
+//минус
 template<class T>
 Matrix<T> Matrix<T>::operator-(const Matrix<T>& other) const
 {
-    return *this + -other;
+    auto return_matrix = *this;
+    return_matrix -= other;
+    return return_matrix;
 }
 
+//вывод в поток
 template<class T>
 std::ostream& operator<<(ostream& out, const Matrix<T>& matrix)
 {
@@ -241,11 +266,11 @@ std::ostream& operator<<(ostream& out, const Matrix<T>& matrix)
     return out;
 }
 
-//вывод в поток
+//ввод из потока
 template<class T>
 istream& operator>>(istream& input_stream, Matrix<T>& matrix)
 {
-    input_stream >> matrix.string_number_ >> matrix.column_number_;
+    input_stream  >> matrix.string_number_ >> matrix.column_number_;
     for (size_t i = 0; i < matrix.string_number_; ++i)
     {
         for (size_t j = 0; j < matrix.column_number_; ++j)
@@ -261,7 +286,7 @@ istream& operator>>(istream& input_stream, Matrix<T>& matrix)
 template<class T>
 Matrix<T> Matrix<T>::operator^(uint64_t power) const
 {
-    Matrix return_value = Matrix(*this);
+    auto return_value = Matrix<T>(*this);
 
     for (size_t i = 0; i < power; ++i)
     {
@@ -288,7 +313,7 @@ Matrix<T>& Matrix<T>::operator*=(T value)
 template<class T>
 Matrix<T> Matrix<T>::operator*(T value)
 {
-    Matrix return_value = Matrix(*this);
+    auto return_value = Matrix<T>(*this);
     for (size_t i = 0; i < this->string_number_; ++i)
     {
         for (size_t j = 0; j < this->column_number_; ++j)
@@ -353,6 +378,7 @@ T Matrix<T>::max()
     return max;
 }
 
+//вывод вектора из минимальных элементов столбцов
 template<class T>
 vector<T> Matrix<T>::get_min_vector()
 {
@@ -405,3 +431,25 @@ T Matrix<T>::column_sum(uint64_t col_number)
     return summ;
 }
 
+//оператор сравнения
+template<class T>
+bool Matrix<T>::operator==(const Matrix& other) const
+{
+    if (this->string_number_ != other.string_number_ || this->column_number_ != other.column_number_)
+    {
+        return false;
+    }
+    
+    for (size_t i = 1; i < this->string_number_; ++i)
+    {
+        for (size_t j = 1; j < this->column_number_; ++j)
+        {
+            if (this->body_[i][j] != other.body_[i][j])
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}

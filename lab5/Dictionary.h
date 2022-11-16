@@ -36,9 +36,9 @@ protected:
 public:
     dDictionary();
 
-    void add_pair(string, string);
+    void add_pair(string, string) override;
     void get_time();
-    void show();
+    void show() override;
     
 };
 

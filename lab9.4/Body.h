@@ -8,17 +8,38 @@
 
 class Body
 {
+    
   protected:
     enum shape {shar, prisma, parallelepiped, cub, piramida, conus, cylinder};
-    int64_t radius_;
-    int64_t height_z_;
-    int64_t rebro_x_;
-    int64_t rebro_y_;
-    int64_t square_osn_;
-    int64_t square_bok_;
-    int64_t square_full_;
-    int64_t velocity_;
-    int64_t power_;
     enum  material { metal, wood, plastic, cardboard };
 
+    static constexpr uint64_t METAL_DENSITY = 5.5;
+    static constexpr uint64_t WOOD_DENSITY = 1.1;
+    static constexpr uint64_t PLASTIC_DENSITY = 0.7;
+    static constexpr uint64_t CARDBOARD_DENSITY = 2.5;
+
+
+    shape shape_;
+    material material_;
+
+    double length_z_;
+    double length_x_;
+    double length_y_;
+
+    double square_osn_;
+    double square_bok_;
+    double square_full_;
+    double velocity_;
+    double power_;
+
+    Body() = default;
+
+  public:
+    virtual double Square_osn() = 0;
+    virtual double Square_bok() = 0;
+    virtual double Velocity() = 0;
+
+    virtual ~Body() = 0;
 };
+
+Body::~Body() {}

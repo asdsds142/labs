@@ -4,12 +4,13 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <string>
     
 
 using namespace std;
 
 template<class T>
-class Queue
+class Queue 
 {
   private:
     static const uint64_t STANDART_SIZE = 100;
@@ -26,13 +27,14 @@ class Queue
 
     void push(T);
     T pop();
+
+    Queue& fill_f(ifstream&);
+    Queue& flush_f(ofstream&);
 };
 
 template<class T>
 Queue<T>::Queue():
-size_(STANDART_SIZE), body_(new T[STANDART_SIZE]), end_(0)
-{
-}
+size_(STANDART_SIZE), body_(new T[STANDART_SIZE]), end_(0) {}
 
 template<class T>
 Queue<T>::Queue(const Queue& other):
@@ -63,15 +65,57 @@ Queue<T>& Queue<T>::operator=(const Queue& other)
 template<class T>
 Queue<T>::~Queue()
 {
-    delete[] this->body;
+    delete[] this->body_;
 }
 
 template<class T>
 void Queue<T>::push(T value)
 {
-    if (this->end_ ==)
+    if (this->end_ == this->size_)
     {
-      /* code */
+        throw std::runtime_error("переполнение очереди");
     }
+
+    this->body_[this->end_] = value;
+    this->end_++;   
+}
+
+template<class T>
+T Queue<T>::pop()
+{
+    if (this->end_ == 0)
+    {
+        throw std::runtime_error("очередь пуста, ненадо попать");
+    }
+
+    this->end_--;
+    return this->body_[this->end_];
+}
+
+
+template<class T>
+Queue<T>& Queue<T>::fill_f(ifstream& input_s)
+{
+    T tmp;
+    while(!input_s.eof())
+    {
+        input_s >> tmp;
+        this->push(tmp);
+    }
+
+    return *this;
+}
+
+template<class T>
+Queue<T>& Queue<T>::flush_f(ofstream& out_s)
+{
+    while (this->end_ != 0)
+    {
+        auto tmp = this->pop();
+        cout << tmp;
+        out_s << tmp << '\n';
+    }
+    out_s << endl;
     
+    return *this;
 }

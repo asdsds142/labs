@@ -18,14 +18,13 @@ using namespace std;
 class Phone
 {
 private:
-    
-    string surname;
-    string name;
-    string father_name;
-    string adress;
-    long number;
-    long incity_time;
-    long intercity_time;
+    string surname_;
+    string name_;
+    string father_name_;
+    string adress_;
+    long number_;
+    long incity_time_;
+    long intercity_time_;
 
 
 public:

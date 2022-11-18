@@ -28,7 +28,7 @@ int main()
     }
     catch(const std::exception& e)
     {
-        std::cout << "что-то сломалосб" << endl;
+        std::cerr << "что-то сломалосб" << endl;
         std::cerr << e.what() << '\n';
     }    
 }

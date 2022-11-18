@@ -24,7 +24,7 @@ private:
     static constexpr uint64_t DEFAULT_SIZE = 50;
     static uint64_t matrix_id_;
 
-    string name_;
+    string name_ = "undefined";
 	uint64_t string_number_ = DEFAULT_SIZE;
     uint64_t column_number_ = DEFAULT_SIZE;
     T** body_ = nullptr;
@@ -36,39 +36,39 @@ public:
     explicit Matrix(istream&); //
 
     Matrix(const Matrix<T>&); //
-    ~Matrix(); //
-    Matrix<T>& operator=(const Matrix<T>&); //
+    virtual ~Matrix(); //
+    virtual Matrix<T>& operator=(const Matrix<T>&); //
 
-	void to_file(ofstream&); //
-	void show() const; //
+	virtual void to_file(ofstream&); //
+	virtual void show() const; //
 
-    uint64_t get_i() const {return this->string_number_;} //   
-    uint64_t get_j() const {return this->column_number_;} //
-    T get_value(uint64_t, uint64_t) const; //
+    virtual uint64_t get_i() const {return this->string_number_;} //   
+    virtual uint64_t get_j() const {return this->column_number_;} //
+    virtual T get_value(uint64_t, uint64_t) const; //
 
-    T string_sum(uint64_t); // 
-    T column_sum(uint64_t); //
-    T min(); //
-    T max(); //
-    vector<T> get_min_vector(); //
+    virtual T string_sum(uint64_t); // 
+    virtual T column_sum(uint64_t); //
+    virtual T min(); //
+    virtual T max(); //
+    virtual vector<T> get_min_vector(); //
 
 
-    Matrix<T> operator-() const; //
-    Matrix<T>& operator*=(const Matrix<T>&); //
-	Matrix<T> operator*(const Matrix<T>&) const; //
-    Matrix<T>& operator+=(const Matrix<T>&); //
-    Matrix<T> operator+(const Matrix<T>&) const; //
-    Matrix<T>& operator-=(const Matrix<T>&); //
-    Matrix<T> operator-(const Matrix<T>&) const; //
+    virtual Matrix<T> operator-() const; //
+    virtual Matrix<T>& operator*=(const Matrix<T>&); //
+	virtual Matrix<T> operator*(const Matrix<T>&) const; //
+    virtual Matrix<T>& operator+=(const Matrix<T>&); //
+    virtual Matrix<T> operator+(const Matrix<T>&) const; //
+    virtual Matrix<T>& operator-=(const Matrix<T>&); //
+    virtual Matrix<T> operator-(const Matrix<T>&) const; //
 
-    Matrix<T> operator^(uint64_t) const; //
+    virtual Matrix<T> operator^(uint64_t) const; //
 
-    bool operator==(const Matrix<T>&) const; //
+    virtual bool operator==(const Matrix<T>&) const; //
 
-    Matrix<T>& operator*=(T); //
-    Matrix<T> operator*(T const); //
-    Matrix<T>& operator/=(T); //
-    Matrix<T> operator/(T) const; //
+    virtual Matrix<T>& operator*=(T); //
+    virtual Matrix<T> operator*(T const); //
+    virtual Matrix<T>& operator/=(T); //
+    virtual Matrix<T> operator/(T) const; //
 
 
     template<class P>

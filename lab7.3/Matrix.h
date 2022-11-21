@@ -118,7 +118,7 @@ Matrix<T>::~Matrix()
 template<class T>
 void Matrix<T>::show() const
 {
-    cout << this->name_ << '\n';
+    cout << '\n' <<this->name_;
     for (size_t i = 0; i < this->string_number_; ++i)
     {
         cout << '\n';
@@ -176,7 +176,6 @@ Matrix<T>& Matrix<T>::operator*=(const Matrix<T>& other)
         }
     }
     *this = return_matrix; //немного не оптимально но как делать move я разберусь чуть позже
-    cout << "*=f";
     return *this;
 }
 
@@ -292,7 +291,8 @@ Matrix<T> Matrix<T>::operator^(uint64_t power) const
     {
         return_value *= *this;
     }
-    
+
+    return return_value;    
 }
 
 //умножение матрицы на число
@@ -335,7 +335,8 @@ Matrix<T>& Matrix<T>::operator/=(T value)
 template<class T>
 Matrix<T> Matrix<T>::operator/(T value) const
 {
-    return *this * (1/value);
+    auto return_value = Matrix(*this);
+    return return_value * (1/value);
 }
 
 

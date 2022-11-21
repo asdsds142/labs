@@ -12,6 +12,7 @@ class Cub : public Body
     void recalculate_();
     uint64_t return_density(material);
   public: 
+    class Cub_exception : public std::exception {};
     enum axis {x_axis, y_axis, z_axis};
     
     Cub(double, material);  //

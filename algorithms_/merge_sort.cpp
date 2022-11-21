@@ -86,15 +86,3 @@ vector<int> merge(vector<int> v1, vector<int> v2)
 
 
 
-
-
-
-int main()
-{
-    vector<int> v {8, 3, 7, 3, 4, 6, 1 , 7, 8, 9, 6, 7, 56};
-    merge_sort(v);
-    for (int i = 0; i < v.size(); i++)
-    {
-        cout << v[i] << " " ;
-    }
-}

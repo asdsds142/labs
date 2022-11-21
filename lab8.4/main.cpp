@@ -2,31 +2,9 @@
 /*Разработать функции для выполнения базовых операций над линейными структурами, 
   содержащими записи со сведениями о студентах: ФИО, возраст, пол, курс,  успеваемость. 
   Реализовать функции заполнения очереди значениями из файла и вывода элементов очереди в файл.*/
+
 #include "Queue.h"
-
-
-struct Student
-{
-    string name = "";
-
-    uint16_t age = 0;
-    bool is_man = 1;
-    uint8_t kurs = 0;
-    double avg_grade = 0;    
-
-    Student(){}
-    Student(string name, uint16_t age, bool is_man, uint8_t kurs, double avg_grade):
-    name(name), age(age), is_man(is_man), kurs(kurs), avg_grade(avg_grade) {}
-
-    friend ostream& operator<<(ostream& out_s, Student petya)
-    {
-        out_s << petya.name << ' ' << petya.age << ' ' << petya.is_man << ' ' << petya.kurs << ' ' << petya.avg_grade << ' ';
-        out_s.flush();
-        return out_s;
-    }
-
-};
-
+#include "Student.h"
 
 
 int main()
@@ -34,9 +12,35 @@ int main()
     Queue<Student> que;
     Queue<Student> que_second;
 
-    auto petya = Student("Petrov Petr Petrovich", 21, 1, 2, 7.2);
-    que.push(petya);
+    {
+        auto if_str = ifstream("supportive.data");
+        que.fill_f(if_str);
+    }
+    que_second = que;
+
+    Student min_aged;
+    constexpr uint64_t FALSE_AGE = 10000;
+    uint64_t min_age = FALSE_AGE;
+    cout << "Введите курс" << endl;
+    uint64_t num;
+    cin >> num;
+
+
+    for (size_t i = que.size(); i > 0; i--)
+    {
+        Student tmp = que.pop();
+        if (tmp.age < min_age && tmp.kurs == num)
+        {
+            min_age = tmp.age;
+            min_aged = tmp;
+        }
+    }
+    
+    min_age == FALSE_AGE ? cout << "not found" << endl : cout << min_aged << endl;
+
+        
 
     auto out_s = ofstream("supportive.data");
-    que.flush_f(out_s);
+    que_second.flush_f(out_s);
+
 }

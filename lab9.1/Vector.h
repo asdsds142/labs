@@ -115,6 +115,25 @@ Vector<T> Vector<T>::operator-(const Vector& other) const
 }
 
 template<typename T>
+double Vector<T>::operator*(const Vector& other) const
+{
+    if (this->size_ != other.size_)
+    {
+        throw v_wrong_sizing_exception("scalar_product");
+    }
+    
+    double return_value = 0;
+
+    for (size_t i = 0; i < this->size_; ++i)
+    {
+        return_value += (this->body_[i] * other.body_[i]);
+    }
+
+    return return_value;
+    
+}
+
+template<typename T>
 Vector<T>& Vector<T>::operator*=(double scalar)
 {
     for (size_t i = 0; i < this->size_; ++i)
@@ -159,8 +178,9 @@ void Vector<T>::show()
 {
     for (size_t i = 0; i < this->size_; ++i)
     {
-        std::cout << this->body_[i];
+        std::cout << this->body_[i] << ' ';
     }
+    std::cout << std::endl;
     
 }
 

@@ -59,6 +59,8 @@ class Vector
     Vector& operator-=(const Vector&);
     Vector operator-(const Vector&) const;
 
+    double operator*(const Vector&) const;
+
     Vector& operator*=(double);
     Vector operator*(double) const;
     Vector& operator/=(double);

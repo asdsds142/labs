@@ -7,6 +7,8 @@ int main()
 
     try 
     {
+
+
         ifstream file_stream{"supportive.data"};
         size_t cntr;
         file_stream >> cntr;
@@ -41,6 +43,11 @@ int main()
     catch (...)
     {
         cout << "что то не так пошло" << endl;
+    }
+    
+    for (size_t i = 0; i < 25; i++)
+    {
+        int* p = new int[23];
     }
     
 

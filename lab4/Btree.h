@@ -2,6 +2,46 @@
 #pragma once
 #include "Btree_class_description.h"
 
+
+template<class T>
+Btree<T>::node* Btree<T>::try_alloc(T value)
+{
+    node* ptr = nullptr;
+    for (size_t i = 0; i < 10; i++) //пробуем 10 раз, не получается выключаемся
+    {
+        try
+        {
+            ptr = new node(value);
+            break;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << " " << i << '\n'; //обработка bad alloc
+        }
+    }
+    return ptr;
+}
+
+
+template<class T>
+Btree<T>::node* Btree<T>::try_alloc(const node& other)
+{
+    node* ptr = nullptr;
+    for (size_t i = 0; i < 10; i++) //пробуем 10 раз, не получается выключаемся
+    {
+        try
+        {
+            ptr = new node(other);
+            break;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << " " << i << '\n'; //обработка bad alloc
+        }
+    }
+    return ptr;
+}
+
 //конструктор ноды
 template<class T>
 Btree<T>::node::node(T val) : value(val){}
@@ -37,11 +77,11 @@ Btree<T>::node::node(const node& other)
     this->value = other.value;
     if (other.left)
     {
-        this->left = new node(*other.left);
+        this->left = try_alloc(*other.left);
     }
     if (other.right)
     {
-        this->right = new node(*other.right);
+        this->right = try_alloc(*other.right);
     }
 }
 
@@ -54,14 +94,14 @@ class Btree<T>::node& Btree<T>::node::operator=(const node& other) //надо у
         return *this;
     }
     delete this; //узнал что надо удалять сначала то что было
-    this = new node(other); //чутка подредачил но не проверял вотето вот
+    this = try_alloc(other); //чутка подредачил но не проверял вотето вот
 } 
 
 //конструктор из 1 элемента, по хорошему заменить на ... конструктор из списка элементов но то TODO
 template<class T>
 Btree<T>::Btree(T val)
 {
-    this->root_ = new node(val);
+    this->root_ = try_alloc(val);
 }
 
 //оператор присваивания дерева
@@ -74,7 +114,7 @@ Btree<T>& Btree<T>::operator=(const Btree& other)
     }
 
     delete this->root_; //тут тоже подредачил удаляя старые штуки
-    this->root_ = new node(other.root_);
+    this->root_ = try_alloc(other.root_);
 }
 
 //конструктор перемещения
@@ -92,7 +132,7 @@ Btree<T>::Btree(vector<T> v)
     //берем примерно средний элемент чтобы если "случайно" засунуть в дерево отсортированный массив не возник казус
     size_t a = v.size()/2; 
 
-    this->root_ = new node(v[a]);
+    this->root_ = try_alloc(v[a]);
 
     for (size_t i = 0; i < v.size(); ++i)
     {
@@ -106,7 +146,7 @@ Btree<T>::Btree(vector<T> v)
 template<class T>
 Btree<T>::Btree(const Btree& other)
 {
-    this->root_ = new node(*other.root_);
+    this->root_ = try_alloc(*other.root_);
 }
 
 //добавление элемента через цикл
@@ -124,7 +164,7 @@ void Btree<T>::cycle_add(T val)
             }
             else
             {
-                current_node_p->right = new node(val);
+                current_node_p->right = try_alloc(val);
                 break;
             }
         }
@@ -136,7 +176,7 @@ void Btree<T>::cycle_add(T val)
             }
             else
             {
-                current_node_p->left = new node(val);
+                current_node_p->left = try_alloc(val);
                 break;
             }
         }
@@ -156,7 +196,7 @@ void Btree<T>::add(T val)
         cycle_add(val); //циклическое работает немного быстрее, но можно еще потестировать
     }
 
-    else { this->root_ = new node(val);}
+    else { this->root_ = try_alloc(val);}
 }
 
 //рекурсивное добавление элемента
@@ -167,14 +207,14 @@ void Btree<T>::recursive_add(node* node_p, T val)
     {
         if (node_p->right){ recursive_add(node_p->right, val);}
 
-        else { node_p->right = new node(val);}
+        else { node_p->right = try_alloc(val);}
     }
 
     else
     {
         if (node_p->left){ recursive_add(node_p->left, val);}
 
-        else { node_p->left = new node(val);}
+        else { node_p->left = try_alloc(val);}
     }
 }
 

@@ -33,6 +33,8 @@ private:
     void get_sorted(bool flg, vector<T> *result, node* ptr);
     void show(node*) const;
     void cycle_add(T);
+    node* try_alloc(T);
+    node* try_alloc(const node&);
 
 public:
     Btree(vector<T>);
@@ -49,6 +51,7 @@ public:
 
     vector<T> get_sorted(bool flag);
     Btree& operator=(const Btree&);
+
 
 };
 

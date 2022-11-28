@@ -1,3 +1,4 @@
+#pragma once
 #include "linked_list_header.h"
 
 //конструктор по значению

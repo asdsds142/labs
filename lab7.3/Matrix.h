@@ -106,6 +106,7 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T>& other)
 template<class T>
 Matrix<T>::~Matrix()
 {
+    cout << "dest called" << endl;
     for (size_t i = 0; i < string_number_; ++i)
     {
         delete[] this->body_[i];

@@ -14,6 +14,8 @@ void tester(string num)
     cout << "flag" << num << endl;
 }*/
 
+
+
 //конструктор ноды
 Btree::node::node(double val) : value(val){}
 

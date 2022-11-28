@@ -51,7 +51,6 @@ private:
     uint64_t column_number_ = DEFAULT_SIZE;
     T** body_ = nullptr;
 
-
 public:
 
 	explicit Matrix(uint64_t = DEFAULT_SIZE, uint64_t = DEFAULT_SIZE, T = 0);//													
@@ -72,7 +71,6 @@ public:
     virtual T min(); //
     virtual T max(); //
     virtual vector<T> get_min_vector(); //
-
 
     virtual Matrix<T> operator-() const; //
     virtual Matrix<T>& operator*=(const Matrix<T>&); //

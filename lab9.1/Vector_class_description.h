@@ -12,8 +12,12 @@ class Vector
   private:
     static constexpr uint64_t STANDART_SIZE = 3;
 
-    uint64_t size_ = 0;
     T* body_ = nullptr;
+    uint64_t size_ = 0;
+    int64_t left_bound;
+    int64_t right_bound;
+
+    T* try_allocate(uint64_t);
 
   public:
     class v_overflow_exception : public std::runtime_error 
@@ -47,6 +51,7 @@ class Vector
     };
 
     Vector();
+    Vector(int64_t, int64_t);
     explicit Vector(uint64_t);
     Vector(const Vector&);
     Vector& operator=(const Vector&);
@@ -70,6 +75,6 @@ class Vector
     void show(uint64_t);
     uint64_t size() {return this->size_; }
 
-    T& operator[](uint64_t);
-    T& at(uint64_t);
+    T& operator[](int64_t);
+    T& at(int64_t);
 };

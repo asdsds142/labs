@@ -3,37 +3,46 @@
 
 #include "Vector_class_description.h"
 
-template<typename T>
-Vector<T>::Vector()
+template<typename T> 
+T* Vector<T>::try_allocate(uint64_t size)
 {
-    try
+    T* return_value = nullptr;
+    for (size_t i = 0; i < 10; i++) //пробуем 10 раз не получается ну значит не получается
     {
-        this->body_ = new T[STANDART_SIZE];
+        try
+        {
+            return_value = new T[size];
+            break;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     }
-    catch(...)
+    if (!return_value)
     {
+        throw v_memory_allocate_exception("try_allocate_failed");
+    }
 
-        throw v_memory_allocate_exception("asdf");
-    }
-    
-    this->size_ = STANDART_SIZE;
+    return return_value;    
+}
+
+template<typename T>
+Vector<T>::Vector():
+body_(try_allocate(STANDART_SIZE)), size_(STANDART_SIZE), left_bound(0), right_bound(STANDART_SIZE - 1)
+{
+}
+
+template<typename T>
+Vector<T>::Vector(int64_t left_bound, int64_t right_bound):
+body_(try_allocate(abs(right_bound - left_bound))), size_(abs(right_bound - left_bound)), left_bound(left_bound), right_bound(right_bound)
+{
 }
 
 template<typename T>
 Vector<T>::Vector(const Vector& other):
-size_(other.size_)
+body_(try_allocate(other.size_)), size_(other.size_), left_bound(other.left_bound), right_bound(other.right_bound)
 {
-    try
-    {
-        this->body_ = new T[other.size_];
-    }
-
-    catch(const std::exception& e)
-    {
-
-        throw v_memory_allocate_exception("aas");
-    }
-    
     for (size_t i = 0; i < size_; ++i)
     {
         this->body_[i] = other.body_[i];
@@ -53,17 +62,11 @@ Vector<T>& Vector<T>::operator=(const Vector& other)
 {
     delete[] this->body_;
 
-    try
-    {
-        this->body_ = new T[other.size_];
-    }
+    this->body_ = try_allocate(other.size_);
+    this->size_ = other.size_;
+    this->left_bound = other.left_bound;
+    this->right_bound = other.right_bound;
 
-    catch(const std::exception& e)
-    {
-        throw v_memory_allocate_exception("");
-    }
-
-    this->size_ = other.size_();
     for (size_t i = 0; i < size_; ++i)
     {
         this->body_[i] = other.body_[i];
@@ -186,19 +189,39 @@ void Vector<T>::show()
 
 
 template<typename T>
-T& Vector<T>::operator[](uint64_t index)
+T& Vector<T>::operator[](int64_t index)
 {
-    return this->body_[index];
+    if (this->left_bound < this->right_bound)
+    {   
+        return this->body_[index - this->left_bound];
+    }
+    else
+    {
+        return this->body_[this->left_bound - index];
+    }
+
 }
 
 
 template<typename T>
-T& Vector<T>::at(uint64_t index)
+T& Vector<T>::at(int64_t index)
 {
-    if (index < 0 || index >= this->size_)
+    if (this->left_bound < this->right_bound)
+    {   
+        if (index < this->left_bound || index > this->right_bound)
+        {
+            throw v_wrong_index_exception("at wrong index");
+        }
+        
+        return this->body_[index - this->left_bound];
+    }
+    else
     {
-        throw v_wrong_index_exception("at");
+        if (index > this->left_bound || index < this->right_bound)
+        {
+            throw v_wrong_index_exception("at wrong index");
+        }
+        return this->body_[this->left_bound - index];
     }
     
-    return this->body_[index];
 }

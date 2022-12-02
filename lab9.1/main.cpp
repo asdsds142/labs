@@ -1,20 +1,20 @@
 //main.cpp
 
-
 #include "Vector.h"
 
 
 int main()
 {
-    auto sebas = Vector<int64_t>();
+    //задание вектора с кастомными границами [2, 9]
+    Vector<int64_t> sebas {1, 5, 2, 6, 2, 5, 3, 6, 7}; 
     auto sebas_ultra = sebas;
     
 
-    for (size_t i = 0; i < sebas.size() + 1; i++)
+    //специально пробую на 1 элемент больше чем надо чтобы триггернуть кетч
+    for (int64_t i = 0; i < static_cast<int64_t>(sebas.size() + 1); i++) 
     {
         try
         {
-            sebas.at(i) =  1 + 2 * i;
             sebas.at(i) *= i;
             sebas_ultra.at(i) = 3;
         }
@@ -27,7 +27,8 @@ int main()
 
     try
     {
-        sebas / 0;
+        sebas /= 0;
+        std::cout << "попробывали" << std::endl;
     }
     catch(const std::exception& e)
     {
@@ -37,5 +38,6 @@ int main()
     sebas.show();
     sebas_ultra.show();
 
+    //вывод скалярного произведения
     std::cout << (sebas * sebas_ultra) << std::endl;
 }

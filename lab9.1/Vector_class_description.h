@@ -14,8 +14,8 @@ class Vector
 
     T* body_ = nullptr;
     uint64_t size_ = 0;
-    int64_t left_bound;
-    int64_t right_bound;
+    int64_t left_bound_;
+    int64_t right_bound_;
 
     T* try_allocate(uint64_t);
 
@@ -52,7 +52,9 @@ class Vector
 
     Vector();
     Vector(int64_t, int64_t);
+    Vector(std::initializer_list<T>);
     explicit Vector(uint64_t);
+
     Vector(const Vector&);
     Vector& operator=(const Vector&);
     ~Vector();
@@ -64,7 +66,7 @@ class Vector
     Vector& operator-=(const Vector&);
     Vector operator-(const Vector&) const;
 
-    double operator*(const Vector&) const;
+    T operator*(const Vector&) const;
 
     Vector& operator*=(double);
     Vector operator*(double) const;

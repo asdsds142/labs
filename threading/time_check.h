@@ -4,17 +4,25 @@
 #include <chrono>
 
 
-using namespace std;
 
 
-/*функция для отладки, помещать в самое начало функции
+/*штука для отладки, 
+  конструктор принимает на вход строку "имя"
   выводит "имя" started/finished в конструкторе/деструкторе
-  а так же выводит длительность выполнения*/
+
+  в конструкторе засекает начальный time_point
+  в деструкторе выводит длительность выполнения*/
+
 struct time_checker
 {
-    string name;
-    std::chrono::_V2::system_clock::time_point start;
-    time_checker(string);
+    using t_p = std::chrono::_V2::system_clock::time_point;
+    using dur_double = std::chrono::duration<double>;
+    using sys_clock = std::chrono::system_clock;
+    
+    std::string name;
+    t_p start;
+    time_checker(std::string = "");
     ~time_checker();
+    void time_stomp(std::string = "");
 };
 

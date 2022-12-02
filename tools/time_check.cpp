@@ -1,13 +1,13 @@
-#include "time_check.h"
+#include "tools.h"
 
-time_checker::time_checker(std::string name_)
+tools::time_checker::time_checker(std::string name_)
 {
     this->name = name_;
     std::cout << name << " started" << std::endl;
     this->start = sys_clock::now();
 }
 
-time_checker::~time_checker()
+tools::time_checker::~time_checker()
 {
     dur_double dur = sys_clock::now() - start;
     std::cout << name << " finished" << std::endl;  
@@ -15,7 +15,7 @@ time_checker::~time_checker()
 }
 
 
-void time_checker::time_stomp(std::string msg)
+void tools::time_checker::time_stomp(std::string msg)
 {
     static uint64_t cntr = 0;
     dur_double dur = sys_clock::now() - start;

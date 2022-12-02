@@ -1,7 +1,7 @@
 #include "tools.h"
 
 //вызывает input_stream.ignore(9090, слеш n); для заданного потока
-void Tools::ignore_much(istream& input_stream)
+void tools::ignore_much(std::istream& input_stream)
 {
     input_stream.ignore(9090, '\n');
 }
@@ -9,10 +9,10 @@ void Tools::ignore_much(istream& input_stream)
 
 
 //трай-кетчит ввод stringa из input_stream, опционально выводит msg перед вводом
-void Tools::try_input(istream& input_stream, string& buffer, string msg)
+void tools::try_input(std::istream& input_stream, std::string& buffer, std::string msg)
 {
-    cout << msg;
-    cout.flush();
+    std::cout << msg;
+    std::cout.flush();
 
     bool i = true;
     while (i)
@@ -29,7 +29,7 @@ void Tools::try_input(istream& input_stream, string& buffer, string msg)
         }
         catch(const std::exception& e)
         {
-            Tools::ignore_much(input_stream);
+            tools::ignore_much(input_stream);
             std::cerr << e.what() << '\n';
         }
     }
@@ -37,24 +37,24 @@ void Tools::try_input(istream& input_stream, string& buffer, string msg)
 
 
 //трай-кетчит getline для stringa из потока input_stream, опционально выводит msg перед вводом
-void Tools::try_getline(istream& input_stream, string& buffer, string msg)
+void tools::try_getline(std::istream& input_stream, std::string& buffer, std::string msg)
 {
-    cout << msg;
-    cout.flush();
+    std::cout << msg;
+    std::cout.flush();
 
     bool i = true;
     while (i)
     {
         try
         {
-            Tools::ignore_much(input_stream);
-            getline(input_stream, buffer);
+            tools::ignore_much(input_stream);
+            std::getline(input_stream, buffer);
             if (input_stream.fail())
             {
                 input_stream.clear();
                 throw std::runtime_error("stream.getline failed");
             }
-            i = 0;
+            i = false;
         }
         catch(const std::exception& e)
         {
@@ -66,16 +66,16 @@ void Tools::try_getline(istream& input_stream, string& buffer, string msg)
 }
 
 //трай-кетчит ввод long из потока input_stream, aопционально выводит msg перед вводом
-void Tools::try_input(istream& input_stream, long& buffer, string msg)
+void tools::try_input(std::istream& input_stream, long& buffer, std::string msg)
 {
-    cout << msg;
-    cout.flush();
+    std::cout << msg;
+    std::cout.flush();
 
-    string str_buffer;
+    std::string str_buffer;
     bool i = true;
     while (i)
     {
-        Tools::try_input(input_stream, str_buffer);
+        tools::try_input(input_stream, str_buffer);
         try
         {
             buffer = stoi(str_buffer); 
@@ -89,3 +89,7 @@ void Tools::try_input(istream& input_stream, long& buffer, string msg)
         }  
     }
 }
+
+
+
+

@@ -1,11 +1,11 @@
-#include "linked_list.h"
+#include "linked_list.hpp"
 
 int main()
 {
-    Linked_list list;
+    Linked_list<int> list{};
 
-    string buf;
-    cout << "Введите 5 слов: " << endl;
+    int buf;
+    cout << "Введите 5 чисел: " << endl;
     for (int i = 0; i < 5; i++)
     {
         cin >> buf;
@@ -19,10 +19,10 @@ int main()
     }
     
 
-    cout << endl << "Введите требуемую строку: " << endl;
+    cout << endl << "Введите требуемое число: " << endl;
     cin >> buf;
-    string change_value;
-    cout << "Введите значение на которое следует заменить строку: " << endl;
+    int change_value;
+    cout << "Введите значение на которое следует заменить вхождения: " << endl;
     cin >> change_value;
     
 

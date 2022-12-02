@@ -1,13 +1,14 @@
 #include "linked_list.h"
 
 //конструктор по значению
-Linked_list::node::node(string value)
+template<class T>
+Linked_list<T>::node::node(T value): val(value)
 {
-    val = value;
 }
 
 //конструктор копирования
-Linked_list::node::node(const node& other)
+template<class T>
+Linked_list<T>::node::node(const node& other)
 {
 
     val = other.val; //переписываем значение
@@ -18,13 +19,15 @@ Linked_list::node::node(const node& other)
 }
 
 //деструктор
-Linked_list::node::~node()
+template<class T>
+Linked_list<T>::node::~node()
 {
     delete next; //чистим память, если тут будет nullptr делит ничего не сделает
 }
  
 //оператор присваивания
-Linked_list::node& Linked_list::node::operator=(const node& other)
+template<class T>
+typename Linked_list<T>::node& Linked_list<T>::node::operator=(const node& other)
 {
     delete next; //удаляем все что было "за" нодой
 
@@ -38,13 +41,15 @@ Linked_list::node& Linked_list::node::operator=(const node& other)
 }
 
 //конструктор без параметров (задает значения по умолчанию)
-Linked_list::Linked_list()
+template<class T>
+Linked_list<T>::Linked_list()
 {
 
 }
 
 //конструктор копирования
-Linked_list::Linked_list(const Linked_list& other)
+template<class T>
+Linked_list<T>::Linked_list(const Linked_list& other)
 {
     size = other.size;
     if (other.head)
@@ -54,13 +59,15 @@ Linked_list::Linked_list(const Linked_list& other)
 }
 
 //деструктор
-Linked_list::~Linked_list()
+template<class T>
+Linked_list<T>::~Linked_list()
 {
     delete head; //удалять надо только "голову", хвост удалится рекурсивно через деструктор ноды
 }
 
 //оператор присваивания
-Linked_list& Linked_list::operator=(const Linked_list& other)
+template<class T>
+Linked_list<T>& Linked_list<T>::operator=(const Linked_list& other)
 {
     delete head; //почистили то что было
 
@@ -74,7 +81,8 @@ Linked_list& Linked_list::operator=(const Linked_list& other)
 }
 
 //добавить элемент в список
-void Linked_list::push_back(string value)
+template<class T>
+void Linked_list<T>::push_back(T value)
 {
     node* ptr = new node(value);
 
@@ -93,8 +101,8 @@ void Linked_list::push_back(string value)
     size++;
 }
 
-
-void Linked_list::pop_front()
+template<class T>
+void Linked_list<T>::pop_front()
 {
     node* tmp = &*head; 
     head = head->next; //передвинули голову
@@ -105,7 +113,8 @@ void Linked_list::pop_front()
 }
 
 //оператор предоставляющий доступ к элементу с индексом index
-Linked_list::node& Linked_list::operator[](int index)
+template<class T>
+typename Linked_list<T>::node& Linked_list<T>::operator[](int index)
 {
     node* return_value = head;
     
@@ -124,13 +133,15 @@ Linked_list::node& Linked_list::operator[](int index)
 
 
 //функция возвращающая размер списка
-int Linked_list::get_size()
+template<class T>
+int Linked_list<T>::get_size()
 {
     return size;
 }
 
 //функция меняющая местами значения 2 элементов
-void Linked_list::swap(node* first, node* second)
+template<class T>
+void Linked_list<T>::swap(node* first, node* second)
 {
     if (first == second)
     {
@@ -139,25 +150,28 @@ void Linked_list::swap(node* first, node* second)
     
     else
     {   
-        string tmp = first->val;
+        T tmp = first->val;
         first->val = second->val;
         second->val = tmp;
     }
 }
 
-string& Linked_list::get_head()
+template<class T>
+T& Linked_list<T>::get_head()
 {
     return head->val;
 }
 
-string& Linked_list::get_tail()
+template<class T>
+T& Linked_list<T>::get_tail()
 {
     return tail->val;
 }
 
 
 //функция выводящая список на экран
-void Linked_list::print()
+template<class T>
+void Linked_list<T>::print()
 {
     node* tmp = head;
 

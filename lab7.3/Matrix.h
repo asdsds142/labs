@@ -6,7 +6,8 @@ uint64_t Matrix<T>::matrix_id_ = 1;
 
 //конструктор вводящий матрицу из потока input_stream
 template<class T>
-Matrix<T>::Matrix(istream& input_stream): name_("matrix" + to_string(matrix_id_))
+Matrix<T>::Matrix(istream& input_stream): 
+name_("matrix" + to_string(matrix_id_))
 {
     matrix_id_++;
     input_stream  >> string_number_ >> column_number_;
@@ -30,7 +31,8 @@ Matrix<T>::Matrix(istream& input_stream): name_("matrix" + to_string(matrix_id_)
 //конструктор создающий матрицу размеров i, j, заполняющий ее значениями init_value, по умолчанию 0
 template<class T>
 Matrix<T>::Matrix(uint64_t string_number, uint64_t column_number, T init_value): 
-name_("matrix" + to_string(matrix_id_)), string_number_(string_number), column_number_(column_number), body_(new T*[string_number_]) //уточнить
+name_("matrix" + to_string(matrix_id_)), string_number_(string_number), 
+column_number_(column_number), body_(new T*[string_number_]) //уточнить
 {
     matrix_id_++;
     for (size_t i = 0; i < string_number_; ++i)
@@ -50,7 +52,8 @@ name_("matrix" + to_string(matrix_id_)), string_number_(string_number), column_n
 //конструктор копирования
 template<class T>
 Matrix<T>::Matrix(const Matrix<T>& other): 
-name_("matrix" + to_string(matrix_id_)), string_number_(other.string_number_), column_number_(other.column_number_), body_(new T*[string_number_])
+name_("matrix" + to_string(matrix_id_)), string_number_(other.string_number_), 
+column_number_(other.column_number_), body_(new T*[string_number_])
 {
     matrix_id_++;
     static int64_t counter = 0;
@@ -193,7 +196,8 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T>& other) const
 template<class T>
 Matrix<T>& Matrix<T>::operator+=(const Matrix<T>& other)
 {
-    if (this->string_number_ != other.string_number_ or this->column_number_ != other.column_number_)
+    if (this->string_number_ != other.string_number_ or 
+        this->column_number_ != other.column_number_)
     {
         throw std::runtime_error("matrix multiplication wrong sizings");
     }
@@ -211,11 +215,12 @@ Matrix<T>& Matrix<T>::operator+=(const Matrix<T>& other)
 
 
 //минусравно, можно было реализовать через унарный минус сэкономив строчки кода 
-//но это нужно лишний раз перезаписывать все данные в штуке + создавать копию, а зачем
+//но это нужно лишний раз перезаписывать все данные в штуке + создавать копию
 template<class T>
 Matrix<T>& Matrix<T>::operator-=(const Matrix<T>& other)
 {
-    if (this->string_number_ != other.string_number_ or this->column_number_ != other.column_number_)
+    if (this->string_number_ != other.string_number_ or 
+        this->column_number_ != other.column_number_)
     {
         throw std::runtime_error("matrix multiplication wrong sizings");
     }
@@ -410,7 +415,7 @@ template<class T>
 T Matrix<T>::string_sum(uint64_t str_number)
 {
     T summ = this->body_[str_number][0];
-    //задаем начальное значение элементом с индексом 0 на случай альтернативного 0 конструктора, начинаем цикл с 1
+    //инициализируем элементом с индексом 0 на всякий случай, начинаем цикл с 1
     for (size_t i = 1; i < this->column_number_; ++i)
     {
         summ += this->body_[str_number][i];
@@ -424,7 +429,7 @@ template<class T>
 T Matrix<T>::column_sum(uint64_t col_number)
 {
     T summ = this->body_[0][col_number];
-    //задаем начальное значение элементом с индексом 0 на случай альтернативного 0 конструктора, начинаем цикл с 1
+    //инициализируем элементом с индексом 0 на всякий случай, начинаем цикл с 1
     for (size_t i = 1; i < this->string_number_; ++i)
     {
         summ += this->body_[i][col_number];
@@ -437,11 +442,11 @@ T Matrix<T>::column_sum(uint64_t col_number)
 template<class T>
 bool Matrix<T>::operator==(const Matrix& other) const
 {
-    if (this->string_number_ != other.string_number_ || this->column_number_ != other.column_number_)
+    if (this->string_number_ != other.string_number_ || 
+        this->column_number_ != other.column_number_)
     {
         return false;
     }
-    
     for (size_t i = 1; i < this->string_number_; ++i)
     {
         for (size_t j = 1; j < this->column_number_; ++j)

@@ -1,5 +1,15 @@
 #include "Matrix.h"
 
+template<class T>
+void show(Matrix<T>** ptr, uint64_t size)
+{
+    for (size_t i = 0; i < size; i++)
+    {
+        ptr[i]->show();
+    }
+    
+}
+
 int main()
 {
     auto input_stream = ifstream("matrix1");
@@ -15,10 +25,12 @@ int main()
         m_array[0]->show();
         m_array[1]->show();
 
-        cout << endl << m_array[0]->column_sum(0) << ' ' << m_array[1]->column_sum(0) << endl;
+        cout << endl << m_array[0]->column_sum(0) << ' ' 
+                     << m_array[1]->column_sum(0) << endl;
 
         auto output_stream = ofstream("matrix2");
         output_stream << *m_array[1];
+        show(m_array, 2);
     }
     catch(const std::exception& e)
     {

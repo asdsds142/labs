@@ -1,0 +1,2 @@
+/home/asdsds/prog/lab9.4/CMakeFiles/edit_cache.dir
+/home/asdsds/prog/lab9.4/CMakeFiles/rebuild_cache.dir

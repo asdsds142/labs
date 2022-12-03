@@ -3,7 +3,7 @@ CFLAGS = -std=c++17 -O2 -fsanitize=address -Wall -Weffc++ -Wextra -Wsign-convers
 LDFLAGS = -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi 
 
 VulkanTest: main.cpp
-	g++ $(CFLAGS) -o main main.cpp learn_vulkan.cpp lve_pipeline.cpp first_app.cpp $(LDFLAGS)
+	g++ $(CFLAGS) -o main *.cpp $(LDFLAGS)
 
 .PHONY: test clean
 

@@ -1,7 +1,12 @@
-#include "triangle_app.h"
+#include "first_app.hpp"
+
+// std
+#include <cstdlib>
+#include <iostream>
+#include <stdexcept>
 
 int main() {
-    HelloTriangleApplication app;
+    lve::FirstApp app;
 
     try {
         app.run();

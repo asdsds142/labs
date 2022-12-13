@@ -1,9 +1,9 @@
 
-CFLAGS = -std=c++17 -O2 -Wall -Weffc++ -Wextra -Wpedantic -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wenum-compare -Wfloat-equal -Wnon-virtual-dtor -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wsign-conversion -Wsign-promo -Wextra-semi
+CFLAGS = -std=c++17 -O2 -Wall -Wextra -Wpedantic -g
 LDFLAGS = -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi 
 
 VulkanTest: main.cpp
-	g++ $(CFLAGS) -o main *.cpp $(LDFLAGS)
+	g++ $(CFLAGS) -o main *.cpp $(LDFLAGS) && ./compile.sh
 
 .PHONY: test clean
 

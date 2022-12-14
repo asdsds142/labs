@@ -7,6 +7,8 @@ VulkanTest: main.cpp
 
 .PHONY: test clean
 
+
+
 test: main
 	./main
 

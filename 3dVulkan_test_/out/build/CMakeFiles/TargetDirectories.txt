@@ -1,0 +1,4 @@
+/home/asdsds/prog/3dVulkan_test_/out/build/CMakeFiles/LveEngine.dir
+/home/asdsds/prog/3dVulkan_test_/out/build/CMakeFiles/Shaders.dir
+/home/asdsds/prog/3dVulkan_test_/out/build/CMakeFiles/edit_cache.dir
+/home/asdsds/prog/3dVulkan_test_/out/build/CMakeFiles/rebuild_cache.dir
